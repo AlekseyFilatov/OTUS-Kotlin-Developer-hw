@@ -1,0 +1,851 @@
+openapi: 3.0.3
+# https://dev.to/indybonez/openapi-tips-data-type-formats-116g
+# https://editor.swagger.io/
+# Плагин Visual Studio Code OpenAPI viewer: vscode-openapi-viewer
+info:
+  title: "Clients learning models"
+  description: Clients learning models 
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+  contact:
+    name: Filatov Aleksey
+servers:
+  - url: http://localhost:8080/api
+    description: 'Local'
+tags:
+  - name: BaseMl
+    description: Объект описывает мl модель для crud запросов
+  - name: AnalyticMl
+    description: Объект описывает запрос на формирование Ml модели
+  - name: TrainResultMl
+    description: Объект описывает результат Ml модели    
+  - name: TransformMl
+    description: Объект описывает запрос трансформации Ml модели   
+paths:
+  /ml/create:
+    post:
+      tags:
+        - BaseMl
+      summary: Добавление Ml модели
+      operationId: mlCreate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MlCreateRequest'
+        required: true
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MlCreateResponse'
+        400:
+          description: Error Client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        default: 
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+  /ml/read:
+    post:
+      tags:
+        - BaseMl
+      summary: Получение Ml модели
+      operationId: mlRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MlReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MlReadResponse'
+        400:
+          description: Error Client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        default: 
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+  /ml/update:
+    post:
+      tags:
+        - BaseMl
+      summary: Обновление Ml модели
+      operationId: mlUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MlUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MlUpdateResponse'
+        400:
+          description: Error Client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        default: 
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+  /ml/delete:
+    post:
+      tags:
+        - BaseMl
+      summary: Удаление Ml модели
+      operationId: mlDelete
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MlDeleteRequest'
+        required: true
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MlDeleteResponse'
+        400:
+          description: Error Client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        default: 
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+  /ml/search:
+    post:
+      tags:
+        - BaseMl
+      summary: Поиск Ml модели
+      operationId: mlSearch
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MlSearchRequest'
+        required: true
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MlResponseMulti'
+        400:
+          description: Error Client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        default: 
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+  /analyticml/read:
+    post:
+      tags:
+        - AnalyticMl
+      summary: Получение данных ml модели
+      operationId: analyticMlRead
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyticMlReadRequest'
+        required: true
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticMlReadResponse'
+        400:
+          description: Error Client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        default: 
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+                
+  /transformml/update:
+    post:
+      tags:
+        - TransformMl
+      summary: Обновление данных ml модели
+      operationId: transformMlUpdate
+      requestBody:
+        description: Request body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransformMlUpdateRequest'
+        required: true
+      responses:
+        200:
+          description: Success response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IResponse'
+        400:
+          description: Error Client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        500:
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+        default: 
+          description: Internal server error response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalErrorResponse'
+
+components:
+  schemas:
+
+    IRequest:
+      type: object
+      description: Мета-данные для всех запросов
+      properties:
+        requestType:
+          type: string
+          description: Поле с информацией о типе запроса
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+          
+      discriminator:
+        propertyName: requestType
+        mapping:
+          mlCreate: '#/components/schemas/MlCreateRequest'
+          mlRead: '#/components/schemas/MlReadRequest'
+          mlUpdate: '#/components/schemas/MlUpdateRequest'
+          mlDelete: '#/components/schemas/MlDeleteRequest'
+          mlSearch: '#/components/schemas/MlSearchRequest'
+          analyticMlRead: '#/components/schema/AnalyticMlReadRequest'
+          transformMlUpdate: '#/components/schemas/TransformMlUpdateRequest'
+
+    IResponse:
+      type: object
+      description: Мета-данные для всех ответов
+      properties:
+        responseType:
+          type: string
+          description: Поле с информацией о типе ответа
+          example: create
+        requestId:
+          type: string
+          description: Идентификатор запроса для отладки
+        result:
+          $ref: '#/components/schemas/ResponseResult'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+      discriminator:
+        propertyName: responseType
+        mapping:
+          mlCreate: '#/components/schemas/MlCreateResponse'
+          mlRead: '#/components/schemas/MlReadResponse'
+          mlUpdate: '#/components/schemas/MlUpdateResponse'
+          mlDelete: '#/components/schemas/MlDeleteResponse'
+          mlSearch: '#/components/schemas/MlSearchResponse'
+          analyticMlRead: '#/components/schemas/AnalyticMlReadResponse'
+          transformMlUpdate: '#/components/schemas/TransformMlUpdateResponse'
+    
+    ResponseResult:
+      type: string
+      enum:
+        - success
+        - error
+   
+    ResponseError:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+  
+    InternalErrorResponse:
+      type: object
+      description: Объект описывает свойства для внутренней ошибки сервера
+      properties:
+        message:
+          type: string
+    BadRequest:
+      type: object
+      description: Объект описывает ошибку в запросе клиента
+      properties:
+        message:
+          type: string
+
+    # STUBS
+    MlRequestWorkMode:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/MlRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/MlRequestDebugStubs'
+
+    MlRequestDebugMode:
+      type: string
+      enum:
+        - prod
+        - test
+        - stub
+
+    MlRequestDebug:
+      type: object
+      properties:
+        debug:
+          $ref: '#/components/schemas/MlDebug'
+
+    MlDebug:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/MlRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/MlRequestDebugStubs'
+
+    MlRequestDebugStubs:
+      type: string
+      description: Перечисления всех стабов
+      enum:
+        - success
+        - error
+        - notFound
+
+    AnalyticMlRequestWorkMode:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/MlRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/MlRequestDebugStubs'
+            
+    TransformMlRequestWorkMode:
+      type: object
+      properties:
+        mode:
+          $ref: '#/components/schemas/MlRequestDebugMode'
+        stub:
+          $ref: '#/components/schemas/MlRequestDebugStubs'
+    # BaseML
+    title:
+      type: string
+      description: Наименование модели
+      enum:
+        - forest
+        - rapids
+        - xgboost
+        - stub
+    description:
+      type: string
+      description: Описание модели
+
+    BaseMl:
+      type: object
+      description: Объект описывает мl модель для crud запросов
+      properties:
+        title:
+          type: string
+          description: Название ml модели
+        description:
+          type: string
+          description: Описание модели
+
+    MlResponseObject:
+      allOf:
+        - $ref: '#/components/schemas/BaseMl'
+        - type: object
+          description: Объект, который возвращается в ответе бэкенда
+          properties:
+            mltitle:
+              $ref: '#/components/schemas/title'
+
+    MlResponseSingle:
+      allOf:
+        - type: object
+          description: Ответ с одним объектом объявления
+          properties:
+            ml:
+              $ref: '#/components/schemas/MlResponseObject'
+
+
+    MlResponseMulti:
+      allOf:
+        - type: object
+          properties:
+            mls:
+              type: array
+              items:
+                $ref: '#/components/schemas/MlResponseObject'
+
+    MlCreateObject:
+      type: object
+      description: Объект описывает свойства для создания ml модели
+      properties:
+        title:
+          $ref: '#/components/schemas/MlTitle'
+        description:
+          $ref: '#/components/schemas/description'
+    
+    # REQUESTS & RESPONSES
+    # MlCreate
+    MlCreateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MlRequestDebug'
+        - type: object
+          properties:
+            workMode:
+              $ref: '#/components/schemas/MlRequestWorkMode'
+            Ml:
+              $ref: '#/components/schemas/MlCreateObject'
+
+    MlCreateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MlResponseSingle'
+
+    # MlRead
+    MlReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MlRequestDebug'
+        - type: object
+          properties:
+            workMode:
+              $ref: '#/components/schemas/MlRequestWorkMode'
+            Ml:
+              $ref: '#/components/schemas/MlReadObject'
+
+    MlReadObject:
+      allOf:
+        - type: object
+          properties:
+            title:
+              $ref: '#/components/schemas/MlTitle'
+
+    MlReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MlResponseSingle'
+
+    # MlUpdate
+    MlUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MlRequestDebug'
+        - type: object
+          properties:
+            workMode:
+              $ref: '#/components/schemas/MlRequestWorkMode'
+            Ml:
+              $ref: '#/components/schemas/MlUpdateObject'
+
+    MlUpdateObject:
+      allOf:
+        - type: object
+          properties:
+            title:
+              $ref: '#/components/schemas/MlTitle'
+
+
+    MlUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MlResponseSingle'
+
+    # MlDelete
+    MlDeleteRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MlRequestDebug'
+        - type: object
+          properties:
+            workMode:
+              $ref: '#/components/schemas/MlRequestWorkMode'
+            Ml:
+              $ref: '#/components/schemas/MlDeleteObject'
+
+    MlDeleteResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MlResponseSingle'
+
+    MlDeleteObject:
+      allOf:
+        - type: object
+          properties:
+            title:
+              $ref: '#/components/schemas/MlTitle'
+        
+    # mlSearch
+    MlSearchRequest:
+      allOf:
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MlRequestDebug'
+        - type: object
+          properties:
+            mlFilter:
+              $ref: '#/components/schemas/MlSearchFilter'
+
+    MlSearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/MlResponseMulti'
+
+    MlSearchFilter:
+      type: object
+      description: Набор фильтров для поиска
+      properties:
+        searchString:
+          type: string
+          description: Поисковая строка
+        title:
+          $ref: '#/components/schemas/MlTitle'
+
+    # TransformMl
+    TransformMl:
+      type: object
+      description: Объект описывает запрос трансформации Ml модели
+      properties:
+        ticker:
+          type: string
+          description: ticker 
+        task_number:
+          type: string
+          description: task_number 
+          format: uuid
+        date_start:
+          type: string
+          description: Дата/Время 
+          format: 'date-time'
+        date_end:
+          type: string
+          description: Дата/Время 
+          format: 'date-time'
+        date_offset:
+          type: integer
+          format: int64
+          description: date_offset 
+        batch_size:
+          type: integer
+          description: batch_size 
+
+    TransformMlResponseSingle:
+      allOf:
+        - type: object
+          properties:
+            ml:
+              $ref: '#/components/schemas/TransformMl'
+
+    TransformMlResponseMulti:
+      allOf:
+        - type: object
+          properties:
+            mls:
+              type: array
+              items:
+                $ref: '#/components/schemas/TransformMl'
+
+    # TrainResultMl
+    date_time:
+      type: string
+      description: Дата/Время 
+      format: 'date-time'
+    close:
+      type: number
+      description: Результат
+    label_datetime:
+      type: string
+      description: Дата/Время 
+      format: 'date-time'
+    real_result:
+      type: number
+      description: Реальный результат
+    prediction:
+      type: number
+      description: Предикат
+    error:
+      type: number
+      description: Ошибка   
+
+    TrainResultMl:
+      type: object
+      description: Объект описывает результат Ml модели
+      properties:
+        date_time:
+          $ref: '#/components/schemas/date_time'
+        close:
+          $ref: '#/components/schemas/close'
+        label_datetime:
+          $ref: '#/components/schemas/label_datetime'
+        real_result:
+          $ref: '#/components/schemas/real_result'
+        prediction:
+          $ref: '#/components/schemas/prediction'
+        error:
+          $ref: '#/components/schemas/error'
+
+    TrainResultMlResponseSingle:
+      allOf:
+        - type: object
+          properties:
+            ml:
+              $ref: '#/components/schemas/TrainResultMl'
+
+    TrainResultMlResponseMulti:
+      allOf:
+        - type: object
+          properties:
+            mls:
+              type: array
+              items:
+                $ref: '#/components/schemas/TrainResultMl'
+            
+    # AnalyticMl
+    learning_rate:
+      type: number
+      description: learning_rate 
+      format: 'double'
+    max_depth:
+      type: integer
+      description: max_depth
+    sub_sample:
+      type: number
+      description: sub_sample 
+      format: 'double'
+    gamma:
+      type: integer
+      description: gamma
+    num_round:
+      type: integer
+      description: num_round
+    tree_method:
+      type: string
+      description: tree_method  
+    refresh_leaf:
+      type: integer
+      description: refresh_leaf  
+      default: 1
+    process_type:
+      type: string
+      description: process_type  
+      default: 'default'
+    updater:
+      type: string
+      description: updater 
+      default: null  
+
+    AnalyticMl:
+      type: object
+      description: Объект описывает запрос на формирование Ml модели
+      properties:
+        ticker:
+          type: string
+          description: ticker 
+        task_number:
+          type: string
+          description: task_number 
+          format: uuid
+        date_start:
+          type: string
+          description: Дата/Время 
+          format: 'date-time'
+        date_end:
+          type: string
+          description: Дата/Время 
+          format: 'date-time'
+        eval_pivot_point:
+          type: integer
+          format: int64
+          description: eval_pivot_point 
+        model_parameters:
+          $ref: '#/components/schemas/ModelParameters'
+        date_offset:
+          type: integer
+          format: int64
+          description: date_offset 
+        batch_size:
+          type: integer
+          description: batch_size 
+          
+    ModelParameters:
+      type: object
+      description: Объект описывает параметры Ml модели
+      properties:
+        learning_rate:
+          $ref: '#/components/schemas/learning_rate'
+        max_depth:
+          $ref: '#/components/schemas/max_depth'
+        sub_sample:
+          $ref: '#/components/schemas/sub_sample'
+        gamma:
+          $ref: '#/components/schemas/gamma'
+        num_round:
+          $ref: '#/components/schemas/num_round'
+        tree_method:
+          $ref: '#/components/schemas/tree_method'
+        refresh_leaf:
+          $ref: '#/components/schemas/refresh_leaf'
+        process_type:
+          $ref: '#/components/schemas/process_type'
+        updater:
+          $ref: '#/components/schemas/updater'
+
+    AnalyticMlResponseSingle:
+      allOf:
+        - type: object
+        - $ref: '#/components/schemas/TrainResultMl'
+
+    AnalyticMlResponseMulti:
+      allOf:
+        - type: object
+          properties:
+            mls:
+              type: array
+              items:
+                $ref: '#/components/schemas/TrainResultMl'
+
+    # AnalyticMlRead
+    AnalyticMlReadRequest:
+      allOf:
+        - $ref: '#/components/schemas/AnalyticMl'
+        - type: object
+               
+
+    AnalyticMlReadResponse:
+      allOf:
+        - $ref: '#/components/schemas/TrainResultMl'
+
+    # TransformtMlUpdate
+    TransformMlUpdateRequest:
+      allOf:
+        - $ref: '#/components/schemas/TransformMl'
+        - type: object
+
+
+    TransformMlUpdateResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        group:
+          type: string
+        field:
+          type: string
+        message:
+          type: string
+
+    MlTitle:
+      type: string
+      description: Название ml модели
+
+    
