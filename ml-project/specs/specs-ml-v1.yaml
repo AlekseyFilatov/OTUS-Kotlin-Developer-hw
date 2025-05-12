@@ -44,18 +44,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MlCreateResponse'
-        400:
-          description: Error Client
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-        500:
-          description: Internal server error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
         default: 
           description: Internal server error response
           content:
@@ -82,18 +70,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MlReadResponse'
-        400:
-          description: Error Client
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-        500:
-          description: Internal server error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
         default: 
           description: Internal server error response
           content:
@@ -120,18 +96,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MlUpdateResponse'
-        400:
-          description: Error Client
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-        500:
-          description: Internal server error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
         default: 
           description: Internal server error response
           content:
@@ -158,18 +122,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MlDeleteResponse'
-        400:
-          description: Error Client
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-        500:
-          description: Internal server error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
         default: 
           description: Internal server error response
           content:
@@ -196,18 +148,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MlResponseMulti'
-        400:
-          description: Error Client
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-        500:
-          description: Internal server error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
         default: 
           description: Internal server error response
           content:
@@ -235,18 +175,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/AnalyticMlReadResponse'
-        400:
-          description: Error Client
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-        500:
-          description: Internal server error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
         default: 
           description: Internal server error response
           content:
@@ -274,18 +202,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IResponse'
-        400:
-          description: Error Client
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BadRequest'
-        500:
-          description: Internal server error response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InternalErrorResponse'
         default: 
           description: Internal server error response
           content:
