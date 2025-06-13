@@ -13,14 +13,23 @@ allprojects {
 }
 
 subprojects {
+    repositories {
+        mavenCentral()
+    }
     group = rootProject.group
     version = rootProject.version
 }
 
+tasks {
+    register("check_verification") {
+        group = "verification"
+        dependsOn(gradle.includedBuild("ml-service").task(":check"))
+    }
+}
 ext {
     val specDir = layout.projectDirectory.dir("../specs")
     set("spec-v1", specDir.file("specs-ml-v1.yaml").toString())
-    //set("spec-v2", specDir.file("specs-ml-v2.yaml").toString())
+    set("spec-log1", specDir.file("specs-ml-log1.yaml").toString())
 }
 
 tasks {

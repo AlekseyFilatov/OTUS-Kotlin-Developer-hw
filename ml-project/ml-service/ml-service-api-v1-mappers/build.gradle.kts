@@ -10,7 +10,7 @@ dependencies {
 
     implementation(projects.mlServiceCommon)
     implementation(projects.mlServiceApiV1Jackson)
-    implementation(projects.mlServiceApiV1Kmp)
+    //implementation(projects.mlServiceApiV1Kmp)
     implementation(projects.mlServiceStubs)
     testImplementation(kotlin("test-junit"))
 

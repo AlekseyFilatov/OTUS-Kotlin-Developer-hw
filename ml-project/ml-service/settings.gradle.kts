@@ -20,9 +20,9 @@ pluginManagement {
     }
 }
 
-plugins {
+/*plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
-}
+}*/
 
 // Включает вот такую конструкцию
 //implementation(projects.m2l5Gradle.sub1.ssub1)
@@ -33,3 +33,9 @@ include(":ml-service-api-v1-mappers")
 include(":ml-service-api-v1-kmp")
 include(":ml-service-common")
 include(":ml-service-stubs")
+
+include(":ml-service-app-common")
+include(":ml-service-app-ktor")
+include(":ml-service-biz")
+include(":ml-service-api-log1")
+

@@ -220,9 +220,9 @@ components:
           type: string
           description: Поле с информацией о типе запроса
           example: create
-        requestId:
+        requestTitle:
           type: string
-          description: Идентификатор запроса для отладки
+          description: Идентификатор модели
           
       discriminator:
         propertyName: requestType
@@ -235,6 +235,7 @@ components:
           analyticMlRead: '#/components/schema/AnalyticMlReadRequest'
           transformMlUpdate: '#/components/schemas/TransformMlUpdateRequest'
 
+
     IResponse:
       type: object
       description: Мета-данные для всех ответов
@@ -243,9 +244,9 @@ components:
           type: string
           description: Поле с информацией о типе ответа
           example: create
-        requestId:
+        responseTitle:
           type: string
-          description: Идентификатор запроса для отладки
+          description: Идентификатор модели
         result:
           $ref: '#/components/schemas/ResponseResult'
         errors:
@@ -262,6 +263,7 @@ components:
           mlSearch: '#/components/schemas/MlSearchResponse'
           analyticMlRead: '#/components/schemas/AnalyticMlReadResponse'
           transformMlUpdate: '#/components/schemas/TransformMlUpdateResponse'
+          init: '#/components/schemas/MlInitResponse'
     
     ResponseResult:
       type: string
@@ -352,7 +354,7 @@ components:
       type: string
       description: Наименование модели
       enum:
-        - forest
+        - forrest
         - rapids
         - xgboost
         - stub
@@ -377,7 +379,7 @@ components:
         - type: object
           description: Объект, который возвращается в ответе бэкенда
           properties:
-            mltitle:
+            ml title:
               $ref: '#/components/schemas/title'
 
     MlResponseSingle:
@@ -419,6 +421,10 @@ components:
               $ref: '#/components/schemas/MlRequestWorkMode'
             Ml:
               $ref: '#/components/schemas/MlCreateObject'
+
+    MlInitResponse:
+      allOf:
+        - $ref: '#/components/schemas/IResponse'
 
     MlCreateResponse:
       allOf:
@@ -533,8 +539,7 @@ components:
           description: ticker 
         task_number:
           type: string
-          description: task_number 
-          format: uuid
+          description: task_number
         date_start:
           type: string
           description: Дата/Время 
@@ -570,15 +575,13 @@ components:
     # TrainResultMl
     date_time:
       type: string
-      description: Дата/Время 
-      format: 'date-time'
+      description: Дата/Время
     close:
       type: number
       description: Результат
     label_datetime:
       type: string
-      description: Дата/Время 
-      format: 'date-time'
+      description: Дата/Время
     real_result:
       type: number
       description: Реальный результат
@@ -609,9 +612,11 @@ components:
     TrainResultMlResponseSingle:
       allOf:
         - type: object
+          description: Ответ с одним объектом
           properties:
             ml:
               $ref: '#/components/schemas/TrainResultMl'
+
 
     TrainResultMlResponseMulti:
       allOf:
@@ -665,8 +670,7 @@ components:
           description: ticker 
         task_number:
           type: string
-          description: task_number 
-          format: uuid
+          description: task_number
         date_start:
           type: string
           description: Дата/Время 
@@ -715,7 +719,10 @@ components:
     AnalyticMlResponseSingle:
       allOf:
         - type: object
-        - $ref: '#/components/schemas/TrainResultMl'
+          description: Ответ с одним объектом
+          properties:
+            ml:
+              $ref: '#/components/schemas/TrainResultMlResponseSingle'
 
     AnalyticMlResponseMulti:
       allOf:
@@ -724,29 +731,43 @@ components:
             mls:
               type: array
               items:
-                $ref: '#/components/schemas/TrainResultMl'
+                $ref: '#/components/schemas/TrainResultMlResponseSingle'
 
     # AnalyticMlRead
     AnalyticMlReadRequest:
       allOf:
-        - $ref: '#/components/schemas/AnalyticMl'
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MlRequestDebug'
         - type: object
-               
+          properties:
+            workMode:
+              $ref: '#/components/schemas/MlRequestWorkMode'
+            Ml:
+              $ref: '#/components/schemas/AnalyticMl'
+
 
     AnalyticMlReadResponse:
       allOf:
-        - $ref: '#/components/schemas/TrainResultMl'
+        - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TrainResultMlResponseSingle'
 
     # TransformtMlUpdate
     TransformMlUpdateRequest:
       allOf:
-        - $ref: '#/components/schemas/TransformMl'
+        - $ref: '#/components/schemas/IRequest'
+        - $ref: '#/components/schemas/MlRequestDebug'
         - type: object
+          properties:
+            workMode:
+              $ref: '#/components/schemas/MlRequestWorkMode'
+            Ml:
+              $ref: '#/components/schemas/TransformMl'
 
 
     TransformMlUpdateResponse:
       allOf:
         - $ref: '#/components/schemas/IResponse'
+        - $ref: '#/components/schemas/TransformMlResponseSingle'
 
     Error:
       type: object

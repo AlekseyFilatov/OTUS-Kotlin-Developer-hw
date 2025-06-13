@@ -1,7 +1,7 @@
-package api.kotlinproject.api.v1
+package api.kotlinproject.api.jackson.v1
 
-import api.kotlinproject.api.v2.models.IRequest
-import api.kotlinproject.api.v2.models.IResponse
+import api.kotlinproject.api.jackson.v1.models.IRequest
+import api.kotlinproject.api.jackson.v1.models.IResponse
 import com.fasterxml.jackson.databind.MapperFeature
 import com.fasterxml.jackson.databind.json.JsonMapper
 
