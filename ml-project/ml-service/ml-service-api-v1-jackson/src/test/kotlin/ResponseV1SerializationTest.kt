@@ -1,8 +1,9 @@
 package api.kotlinproject.api.v1
 
-import api.kotlinproject.api.v2.models.IResponse
-import api.kotlinproject.api.v2.models.MlCreateResponse
-import api.kotlinproject.api.v2.models.MlResponseObject
+import api.kotlinproject.api.jackson.v1.apiV1Mapper
+import api.kotlinproject.api.jackson.v1.models.IResponse
+import api.kotlinproject.api.jackson.v1.models.MlCreateResponse
+import api.kotlinproject.api.jackson.v1.models.MlResponseObject
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals

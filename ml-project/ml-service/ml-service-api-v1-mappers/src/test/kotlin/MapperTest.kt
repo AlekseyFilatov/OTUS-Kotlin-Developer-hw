@@ -1,13 +1,13 @@
 
 
-import api.kotlinproject.api.v1.models.*
-import api.kotlinproject.common.MkplContext
+import api.kotlinproject.api.jackson.v1.models.*
+import api.kotlinproject.common.MdlContext
 import api.kotlinproject.common.models.*
-import api.kotlinproject.common.stubs.MkplStubs
-import api.kotlinproject.mappers.v1.fromTransport
-import api.kotlinproject.mappers.v1.toTransportCreateMl
-import api.kotlinproject.mappers.v1.toTransportMl
-import api.kotlinproject.stubs.MkplMlStub
+import api.kotlinproject.common.stubs.MdlStubs
+import api.kotlinproject.mappers.v1.jacksonmappers.fromTransport
+import api.kotlinproject.mappers.v1.jacksonmappers.toTransportCreateMl
+import api.kotlinproject.mappers.v1.jacksonmappers.toTransportMl
+import api.kotlinproject.stubs.MdlMlStub
 import org.junit.Test
 import kotlin.test.assertEquals
 
@@ -19,40 +19,40 @@ class MapperTest {
                 mode = MlRequestDebugMode.STUB,
                 stub = MlRequestDebugStubs.SUCCESS,
             ),
-            ml = MkplMlStub.get().toTransportCreateMl()
+            ml = MdlMlStub.get().toTransportCreateMl()
         )
-        val expected = MkplMlStub.prepareResult {
-            title = "forest"
+        val expected = MdlMlStub.prepareResult {
+            title = "forrest"
         }
 
-        val context = MkplContext()
+        val context = MdlContext()
         context.fromTransport(req)
 
-        assertEquals(MkplStubs.SUCCESS, context.stubCase)
-        assertEquals(MkplWorkMode.STUB, context.workMode)
+        assertEquals(MdlStubs.SUCCESS, context.stubCase)
+        assertEquals(MdlWorkMode.STUB, context.workMode)
         assertEquals(expected, context.mlRequest)
     }
 
     @Test
     fun toTransport() {
-        val context = MkplContext(
-            requestId = MkplRequestId("1234"),
-            command = MkplCommand.CREATE,
-            mlResponse = MkplMlStub.get(),
+        val context = MdlContext(
+            requestTitle = MdlRequestTitle("1234"),
+            command = MdlCommand.CREATE,
+            mlResponse = MdlMlStub.get(),
             errors = mutableListOf(
-                MkplError(
+                MdlError(
                     code = "err",
                     group = "request",
                     field = "title",
                     message = "wrong title",
                 )
             ),
-            state = MkplState.RUNNING,
+            state = MdlState.RUNNING,
         )
 
         val req = context.toTransportMl() as MlCreateResponse
 
-        assertEquals(req.ml, MkplMlStub.get().toTransportMl())
+        assertEquals(req.ml, MdlMlStub.get().toTransportMl())
         assertEquals(1, req.errors?.size)
         assertEquals("err", req.errors?.firstOrNull()?.code)
         assertEquals("request", req.errors?.firstOrNull()?.group)

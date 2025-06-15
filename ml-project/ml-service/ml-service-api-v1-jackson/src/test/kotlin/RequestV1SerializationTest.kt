@@ -1,6 +1,7 @@
 package api.kotlinproject.api.v1
 
-import api.kotlinproject.api.v2.models.*
+import api.kotlinproject.api.jackson.v1.apiV1Mapper
+import api.kotlinproject.api.jackson.v1.models.*
 import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
