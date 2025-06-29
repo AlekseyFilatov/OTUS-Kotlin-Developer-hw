@@ -16,7 +16,7 @@ fun MdlContext.toTransportMl(): IResponse = when (val cmd = command) {
     MdlCommand.INIT -> toTransportInit()
     MdlCommand.FINISH -> object: IResponse {
         override val responseType: String? = null
-        override val responseTitle: String? = null
+        //override val responseTitle: String? = null
         override val result: ResponseResult? = null
         override val errors: List<Error>? = null
     }

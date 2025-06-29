@@ -2,5 +2,12 @@ package api.kotlinproject.common.models
 
 data class MdlMlFilter(
     var searchString: String = "",
-    var ownerId: MdlUserId = MdlUserId.NONE
-)
+) {
+    fun deepCopy(): MdlMlFilter = copy()
+
+    fun isEmpty() = this == NONE
+
+    companion object {
+        private val NONE = MdlMlFilter()
+    }
+}

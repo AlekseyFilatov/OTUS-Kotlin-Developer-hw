@@ -4,14 +4,14 @@ import api.kotlinproject.common.models.*
 import api.kotlinproject.common.stubs.MdlStubs
 import api.kotlinproject.common.ws.IMdlWsSession
 import kotlinx.datetime.Instant
-import kotlin.uuid.ExperimentalUuidApi
 
-data class MdlContext @OptIn(ExperimentalUuidApi::class) constructor(
+data class MdlContext constructor(
     var command: MdlCommand = MdlCommand.NONE,
     var state: MdlState = MdlState.NONE,
     val errors: MutableList<MdlError> = mutableListOf(),
     var wsSession: IMdlWsSession = IMdlWsSession.NONE,
 
+    var corSettings: MdlCorSettings = MdlCorSettings(),
     var workMode: MdlWorkMode = MdlWorkMode.PROD,
     var stubCase: MdlStubs = MdlStubs.NONE,
 
@@ -26,6 +26,14 @@ data class MdlContext @OptIn(ExperimentalUuidApi::class) constructor(
     var mlResponse: MdlMl = MdlMl(),
     var mlsResponse: MutableList<MdlMl> = mutableListOf(),
     var mlResponseTrainModel: MdlMlTrainResult = MdlMlTrainResult(),
-    var mlResponseTransform: MdlMlTransform = MdlMlTransform()
+    var mlResponseTransform: MdlMlTransform = MdlMlTransform(),
 
+    var mlValidating: MdlMl = MdlMl(),
+    var mlAnalyticValidating: MdlMlAnalytic = MdlMlAnalytic(),
+    var mlTransformValidating: MdlMlTransform = MdlMlTransform(),
+    var mlResponseTrainModelValidating: MdlMlTrainResult = MdlMlTrainResult(),
+    var mlFilterValidating: MdlMlFilter = MdlMlFilter(),
+
+    var mlValidated: MdlMl = MdlMl(),
+    var mlFilterValidated: MdlMlFilter = MdlMlFilter(),
     )

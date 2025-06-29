@@ -6,7 +6,6 @@ import api.kotlinproject.common.models.*
 import api.kotlinproject.common.stubs.MdlMlTrainResultStubs
 import api.kotlinproject.common.stubs.MdlStubs
 import api.kotlinproject.mappers.v1.jacksonmappers.exceptions.UnknownRequestClass
-import kotlin.uuid.ExperimentalUuidApi
 
 fun MdlContext.fromTransport(request: IRequest) = when (request) {
     is MlCreateRequest -> fromTransport(request)
@@ -86,11 +85,10 @@ private fun MlReadObject?.toInternal(): MdlMl = if (this != null) {
     MdlMl()
 }
 
-@OptIn(ExperimentalUuidApi::class)
 private fun AnalyticMl?.toInternal(): MdlMlAnalytic = if (this != null) {
     MdlMlAnalytic(
-        ticker = ticker,
-        taskNumber = taskNumber,
+        ticker = MdlMlTicker(ticker.toString()),
+        taskNumber = MdlMlTaskNumber(taskNumber.toString()),
         dateStart = dateStart,
         dateEnd = dateEnd,
         evalPivotPoint = evalPivotPoint,

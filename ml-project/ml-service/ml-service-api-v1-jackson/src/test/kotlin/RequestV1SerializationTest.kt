@@ -9,7 +9,7 @@ import kotlin.test.assertEquals
 class RequestV1SerializationTest {
     private val request = MlCreateRequest(
         "create",
-        "1",
+        //"1",
         workMode = MlRequestWorkMode(
             mode = MlRequestDebugMode.STUB,
             stub = MlRequestDebugStubs.SUCCESS

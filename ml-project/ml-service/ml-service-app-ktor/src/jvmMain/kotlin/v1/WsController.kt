@@ -1,12 +1,12 @@
 package api.kotlinproject.app.ktor.v1
 
 import api.kotlinproject.api.jackson.v1.apiV1Mapper
-import api.kotlinproject.api.v1.models.IRequest
+import api.kotlinproject.api.jackson.v1.models.IRequest
 import api.kotlinproject.app.common.controllerHelper
 import api.kotlinproject.app.ktor.MdlAppSettings
 import api.kotlinproject.app.ktor.base.KtorWsSessionV1
 import api.kotlinproject.common.models.MdlCommand
-import api.kotlinproject.mappers.kmpmappers.fromTransport
+import api.kotlinproject.mappers.v1.jacksonmappers.fromTransport
 import api.kotlinproject.mappers.v1.jacksonmappers.toTransportInit
 import api.kotlinproject.mappers.v1.jacksonmappers.toTransportMl
 import com.fasterxml.jackson.module.kotlin.readValue

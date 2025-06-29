@@ -1,36 +1,36 @@
 package api.kotlinproject.common.models
 
-import kotlin.uuid.ExperimentalUuidApi
 
-
-data class MdlMlAnalytic @OptIn(ExperimentalUuidApi::class) constructor(
+data class MdlMlAnalytic constructor(
     /* ticker */
-    var ticker: kotlin.String? = null,
+    var ticker: MdlMlTicker = MdlMlTicker.NONE,
 
     /* task_number */
-    var taskNumber: kotlin.String? = null,
+    var taskNumber: MdlMlTaskNumber = MdlMlTaskNumber.NONE,
 
     /* Дата/Время */
-    var dateStart: kotlin.String? = null,
+    var dateStart: kotlin.String? = "",
 
     /* Дата/Время */
-    var dateEnd: kotlin.String? = null,
+    var dateEnd: kotlin.String? = "",
 
     /* eval_pivot_point */
-    var evalPivotPoint: kotlin.Long? = null,
+    var evalPivotPoint: kotlin.Long? = 0,
 
-    var modelParameters: MdlMlModelParameters? = null,
+    var modelParameters: MdlMlModelParameters = MdlMlModelParameters(),
 
     /* date_offset */
-    var dateOffset: kotlin.Long? = null,
+    var dateOffset: kotlin.Long? = 0,
 
     /* batch_size */
-    var batchSize: kotlin.Long? = null
+    var batchSize: kotlin.Long? = 0
 ) {
     fun isEmpty() = this == NONE
 
+    fun deepCopy(): MdlMlAnalytic = copy(
+    )
+
     companion object {
-        @OptIn(ExperimentalUuidApi::class)
         private val NONE = MdlMlAnalytic()
     }
 
