@@ -220,10 +220,6 @@ components:
           type: string
           description: Поле с информацией о типе запроса
           example: create
-        requestTitle:
-          type: string
-          description: Идентификатор модели
-          
       discriminator:
         propertyName: requestType
         mapping:
@@ -244,9 +240,6 @@ components:
           type: string
           description: Поле с информацией о типе ответа
           example: create
-        responseTitle:
-          type: string
-          description: Идентификатор модели
         result:
           $ref: '#/components/schemas/ResponseResult'
         errors:

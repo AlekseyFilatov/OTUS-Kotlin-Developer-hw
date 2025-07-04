@@ -3,7 +3,6 @@ package api.kotlinproject.mappers.kmpmappers
 import api.kotlinproject.api.v1.models.*
 import api.kotlinproject.common.models.MdlMl
 import api.kotlinproject.common.models.MdlMlAnalytic
-import kotlin.uuid.ExperimentalUuidApi
 
 
 fun MdlMl.toTransportCreateMl() = MlCreateObject(
@@ -23,9 +22,8 @@ fun MdlMl.toTransportDeleteMl() = MlDeleteObject(
     title = title
 )
 
-@OptIn(ExperimentalUuidApi::class)
 fun MdlMlAnalytic.toTransportAnalyticMl() = AnalyticMl(
-    ticker = ticker,
+    ticker = ticker.asString(),
     taskNumber = taskNumber as String?,
     dateStart = dateStart,
     dateEnd = dateEnd,

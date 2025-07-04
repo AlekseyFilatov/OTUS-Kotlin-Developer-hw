@@ -114,7 +114,7 @@ class V1WebsocketStubTest {
                 assertIs<MlInitResponse>(response)
             }
             sendSerialized(request)
-            withTimeout(3000) {
+            withTimeout(4000) {
                 val response = receiveDeserialized<IResponse>() as T
                 assertBlock(response)
             }

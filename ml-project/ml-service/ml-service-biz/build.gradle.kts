@@ -10,6 +10,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib-common"))
 
+                implementation(libs.cor)
                 implementation(project(":ml-service-common"))
                 implementation(project(":ml-service-stubs"))
             }

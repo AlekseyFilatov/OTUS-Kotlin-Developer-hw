@@ -4,5 +4,5 @@ enum class MdlState {
     NONE,
     RUNNING,
     FAILING,
-    FINISHING,
+    FINISHING
 }
