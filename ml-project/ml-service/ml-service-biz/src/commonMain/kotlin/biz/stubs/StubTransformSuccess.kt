@@ -1,16 +1,16 @@
 package biz.stubs
 
-import api.kotlinproject.stubs.MdlMlTransformStub
 import api.kotlinproject.common.MdlContext
-import api.kotlinproject.common.MdlCorSettings
+import api.kotlinproject.common.MdlTransformCorrSettings
 import api.kotlinproject.common.models.MdlState
 import api.kotlinproject.common.stubs.MdlStubs
 import api.kotlinproject.cor.ICorChainDsl
 import api.kotlinproject.cor.worker
 import api.kotlinproject.logging.common.LogLevel
+import api.kotlinproject.stubs.MdlMlTransformStub
 
 
-fun ICorChainDsl<MdlContext>.stubTransformSuccess(title: String, corSettings: MdlCorSettings) = worker {
+fun ICorChainDsl<MdlContext>.stubTransformSuccess(title: String, corSettings: MdlTransformCorrSettings) = worker {
     this.title = title
     this.description = """
         Кейс для успешного получения результата повторной тренировки модели

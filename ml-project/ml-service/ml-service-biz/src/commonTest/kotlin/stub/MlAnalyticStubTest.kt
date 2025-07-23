@@ -1,6 +1,6 @@
 package api.kotlinproject.biz.stub
 
-import api.kotlinproject.biz.MdlMlProcessor
+import api.kotlinproject.biz.MdlMlAnalyticProcessor
 import api.kotlinproject.common.MdlContext
 import api.kotlinproject.common.models.*
 import api.kotlinproject.common.stubs.MdlStubs
@@ -10,7 +10,8 @@ import kotlin.test.assertEquals
 
 class MlAnalyticStubTest {
 
-    private val processor = MdlMlProcessor()
+    private val processorAnalytic = MdlMlAnalyticProcessor()
+
 
     val ticker = MdlMlTicker("NVDA")
     val taskNumber = MdlMlTaskNumber("123")
@@ -56,7 +57,7 @@ class MlAnalyticStubTest {
                 dateOffset = dateOffset,
                 batchSize = batchSize
             ),
-            mlResponseTrainModel = MdlMlTrainResult(
+            mlResponseTrainResult = MdlMlTrainResult(
                 dateTime = dateTime,
                 close = close,
                 labelDatetime = labelDatetime,
@@ -65,9 +66,9 @@ class MlAnalyticStubTest {
                 error = error
             )
         )
-        processor.exec(ctx)
+        processorAnalytic.exec(ctx)
         assertEquals(taskNumber, ctx.mlAnalyticMl.taskNumber)
-        assertEquals(realResult, ctx.mlResponseTrainModel.realResult)
+        assertEquals(realResult, ctx.mlResponseTrainResult.realResult)
     }
 
     @Test
@@ -79,27 +80,27 @@ class MlAnalyticStubTest {
             stubCase = MdlStubs.BAD_ANALYTIC,
             mlAnalyticMl = MdlMlAnalytic(
             ),
-            mlResponseTrainModel = MdlMlTrainResult(
+            mlResponseTrainResult = MdlMlTrainResult(
             ),
         )
-        processor.exec(ctx)
-        assertEquals(MdlMlAnalytic(), ctx.mlAnalyticMl)
+        processorAnalytic.exec(ctx)
+        assertEquals(MdlMlAnalytic(), ctx.mlAnalyticMl, ctx.errors.joinToString ( "; " ))
         assertEquals("analytic", ctx.errors.firstOrNull()?.field)
         assertEquals("validation-analytic", ctx.errors.firstOrNull()?.code)
     }
     @Test
     fun databaseError() = runTest {
         val ctx = MdlContext(
-            command = MdlCommand.CREATE,
+            command = MdlCommand.ANALITYCML,
             state = MdlState.NONE,
             workMode = MdlWorkMode.STUB,
             stubCase = MdlStubs.DB_ERROR,
             mlAnalyticMl = MdlMlAnalytic(
             ),
-            mlResponseTrainModel = MdlMlTrainResult(
+            mlResponseTrainResult = MdlMlTrainResult(
             )
         )
-        processor.exec(ctx)
+        processorAnalytic.exec(ctx)
         assertEquals(MdlMlAnalytic(), ctx.mlAnalyticMl)
         assertEquals("internal", ctx.errors.firstOrNull()?.group)
     }
@@ -107,16 +108,16 @@ class MlAnalyticStubTest {
     @Test
     fun badNoCase() = runTest {
         val ctx = MdlContext(
-            command = MdlCommand.CREATE,
+            command = MdlCommand.ANALITYCML,
             state = MdlState.NONE,
             workMode = MdlWorkMode.STUB,
             stubCase = MdlStubs.NONE,
             mlAnalyticMl = MdlMlAnalytic(
             ),
-            mlResponseTrainModel = MdlMlTrainResult(
+            mlResponseTrainResult = MdlMlTrainResult(
             )
         )
-        processor.exec(ctx)
+        processorAnalytic.exec(ctx)
         assertEquals(MdlMlAnalytic(), ctx.mlAnalyticMl)
         assertEquals("stub", ctx.errors.firstOrNull()?.field)
         assertEquals("validation", ctx.errors.firstOrNull()?.group)

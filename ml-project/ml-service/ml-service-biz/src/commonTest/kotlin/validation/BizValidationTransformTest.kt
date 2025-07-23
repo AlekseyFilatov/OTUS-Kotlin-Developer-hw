@@ -3,10 +3,10 @@ package api.kotlinproject.biz.validation
 import api.kotlinproject.common.models.MdlCommand
 import kotlin.test.Test
 
-class BizValidationTransformTest: BaseBizValidationTest() {
+class BizValidationTransformTest: BaseBizValidationTransformTest() {
     override val command: MdlCommand = MdlCommand.TRANSFORMML
 
-    @Test fun correctTransformFields() = validationTransformFieldsCorrect(command, processor)
-    @Test fun emptyTransformFields() = validationTransformFieldsEmpty(command, processor)
+    @Test fun correctTransformFields() = validationTransformFieldsCorrect(command, processorTransform)
+    @Test fun emptyTransformFields() = validationTransformFieldsEmpty(command, processorTransform)
 
 }

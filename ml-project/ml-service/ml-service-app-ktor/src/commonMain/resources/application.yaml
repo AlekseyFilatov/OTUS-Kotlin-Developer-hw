@@ -24,3 +24,15 @@ ktor:
   logger: socket
   socketLogger:
     port: 24224
+
+mlservice:
+  repository:
+    test: "inmemory"
+    prod: "$DB_TYPE_PROD:inmemory"
+    psql:
+      schema: public
+      database: "$MDLMLS_DB:mlservice-mls"
+      host: "$MDLMLS_HOST:localhost"
+      port: "$MDLMLS_PORT:5432"
+      user: "$MDLMLS_USER:postgres"
+      password: "$MDLMLS_PASS:mlservice-pass"

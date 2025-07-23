@@ -27,8 +27,8 @@ suspend fun ApplicationCall.searchMl(appSettings: MdlAppSettings) =
 
 val clAnalyticMl: KClass<*> = ApplicationCall::analyticMl::class
 suspend fun ApplicationCall.analyticMl(appSettings: MdlAppSettings) =
-    processV1<AnalyticMlReadRequest, AnalyticMlReadResponse>(appSettings, clAnalyticMl, "analytic")
+    processV1Analytic<AnalyticMlReadRequest, AnalyticMlReadResponse>(appSettings, clAnalyticMl, "analytic")
 
 val clTransformMl: KClass<*> = ApplicationCall::transformMl::class
 suspend fun ApplicationCall.transformMl(appSettings: MdlAppSettings) =
-    processV1<TransformMlUpdateRequest, TransformMlUpdateResponse>(appSettings, clTransformMl, "transform")
+    processV1Transform<TransformMlUpdateRequest, TransformMlUpdateResponse>(appSettings, clTransformMl, "transform")

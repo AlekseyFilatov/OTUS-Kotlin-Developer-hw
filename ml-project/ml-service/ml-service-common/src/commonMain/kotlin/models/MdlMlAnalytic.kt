@@ -2,6 +2,7 @@ package api.kotlinproject.common.models
 
 
 data class MdlMlAnalytic constructor(
+
     /* ticker */
     var ticker: MdlMlTicker = MdlMlTicker.NONE,
 
@@ -23,7 +24,9 @@ data class MdlMlAnalytic constructor(
     var dateOffset: kotlin.Long? = 0,
 
     /* batch_size */
-    var batchSize: kotlin.Long? = 0
+    var batchSize: kotlin.Long? = 0,
+
+    var id :MdlMlId = MdlMlId.NONE
 ) {
     fun isEmpty() = this == NONE
 

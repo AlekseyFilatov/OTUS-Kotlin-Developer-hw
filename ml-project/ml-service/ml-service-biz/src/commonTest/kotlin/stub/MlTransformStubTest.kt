@@ -1,6 +1,7 @@
 package api.kotlinproject.biz.stub
 
 import api.kotlinproject.biz.MdlMlProcessor
+import api.kotlinproject.biz.MdlMlTransformProcessor
 import api.kotlinproject.common.MdlContext
 import api.kotlinproject.common.models.MdlCommand
 import api.kotlinproject.common.models.MdlMlTransform
@@ -14,6 +15,7 @@ import kotlin.test.assertEquals
 class MlTransformStubTest {
 
     private val processor = MdlMlProcessor()
+    private val processorTransform = MdlMlTransformProcessor()
 
     val ticker = "NVDA"
     val taskNumber = "123"
@@ -47,7 +49,7 @@ class MlTransformStubTest {
                 batchSize = batchSize
             )
         )
-        processor.exec(ctx)
+        processorTransform.exec(ctx)
 
         assertEquals(taskNumber, ctx.mlTransformMl.taskNumber)
         assertEquals(ticker, ctx.mlResponseTransform.ticker)
@@ -65,7 +67,7 @@ class MlTransformStubTest {
               mlResponseTransform = MdlMlTransform(
               ),
           )
-          processor.exec(ctx)
+          processorTransform.exec(ctx)
           assertEquals(MdlMlTransform(), ctx.mlTransformMl)
           assertEquals("transform", ctx.errors.firstOrNull()?.field)
           assertEquals("validation", ctx.errors.firstOrNull()?.group)
@@ -74,7 +76,7 @@ class MlTransformStubTest {
       @Test
       fun databaseError() = runTest {
           val ctx = MdlContext(
-              command = MdlCommand.CREATE,
+              command = MdlCommand.TRANSFORMML,
               state = MdlState.NONE,
               workMode = MdlWorkMode.STUB,
               stubCase = MdlStubs.DB_ERROR,
@@ -83,7 +85,7 @@ class MlTransformStubTest {
               mlResponseTransform = MdlMlTransform(
               ),
           )
-          processor.exec(ctx)
+          processorTransform.exec(ctx)
           assertEquals(MdlMlTransform(), ctx.mlTransformMl)
           assertEquals("internal", ctx.errors.firstOrNull()?.group)
       }
@@ -91,7 +93,7 @@ class MlTransformStubTest {
       @Test
       fun badNoCase() = runTest {
           val ctx = MdlContext(
-              command = MdlCommand.CREATE,
+              command = MdlCommand.TRANSFORMML,
               state = MdlState.NONE,
               workMode = MdlWorkMode.STUB,
               stubCase = MdlStubs.BAD_TITLE,
@@ -100,9 +102,9 @@ class MlTransformStubTest {
               mlResponseTransform = MdlMlTransform(
               ),
           )
-          processor.exec(ctx)
+          processorTransform.exec(ctx)
           assertEquals(MdlMlTransform(), ctx.mlTransformMl)
-          assertEquals("title", ctx.errors.firstOrNull()?.field)
+          assertEquals("stub", ctx.errors.firstOrNull()?.field)
           assertEquals("validation", ctx.errors.firstOrNull()?.group)
       }
 }

@@ -2,10 +2,7 @@ package api.kotlinproject.biz.stub
 
 import api.kotlinproject.biz.MdlMlProcessor
 import api.kotlinproject.common.MdlContext
-import api.kotlinproject.common.models.MdlCommand
-import api.kotlinproject.common.models.MdlMl
-import api.kotlinproject.common.models.MdlState
-import api.kotlinproject.common.models.MdlWorkMode
+import api.kotlinproject.common.models.*
 import api.kotlinproject.common.stubs.MdlStubs
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
@@ -80,10 +77,9 @@ class MlUpdateStubTest {
             workMode = MdlWorkMode.STUB,
             stubCase = MdlStubs.BAD_DESCRIPTION,
             mlRequest = MdlMl(
-                //id = id,
                 title = title,
                 description = "",
-
+                id = MdlMlId.NONE
             ),
         )
         processor.exec(ctx)

@@ -25,3 +25,14 @@ ktor:
   logger: socket
   socketLogger:
     port: 24224
+
+marketplace:
+  repository:
+    test: "inmemory"
+    prod: "$DB_TYPE_PROD:inmemory"
+    cassandra:
+      keyspace: "$MDLMLS_KEYSPACE:mlservice-mls"
+      host: "$MDLMLS_HOST:localhost"
+      port: "$MDLMLS_PORT:9042"
+      user: "$MDLMLS_USER:cassandra"
+      pass: "$MDLMLS_PASS:cassandra"

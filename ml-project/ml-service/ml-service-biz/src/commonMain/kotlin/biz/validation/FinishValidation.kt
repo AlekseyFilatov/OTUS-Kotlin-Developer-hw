@@ -13,6 +13,22 @@ fun ICorChainDsl<MdlContext>.finishMlValidation(title: String) = worker {
     }
 }
 
+fun ICorChainDsl<MdlContext>.finishMlValidationTransform(title: String) = worker {
+    this.title = title
+    on { state == MdlState.RUNNING }
+    handle {
+        mlValidatedTransform = mlTransformValidating
+    }
+}
+
+fun ICorChainDsl<MdlContext>.finishMlValidationAnalytic(title: String) = worker {
+    this.title = title
+    on { state == MdlState.RUNNING }
+    handle {
+        mlResponseValidatedTrainModel = mlTrainResultValidating
+    }
+}
+
 fun ICorChainDsl<MdlContext>.finishMlFilterValidation(title: String) = worker {
     this.title = title
     on { state == MdlState.RUNNING }

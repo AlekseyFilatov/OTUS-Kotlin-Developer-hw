@@ -39,3 +39,9 @@ include(":ml-service-app-ktor")
 include(":ml-service-biz")
 include(":ml-service-api-log1")
 
+// DB
+include(":ml-service-repo-common")
+include(":ml-service-repo-inmemory")
+include(":ml-service-repo-stubs")
+include(":ml-service-repo-tests")
+include(":ml-service-repo-cassandra")

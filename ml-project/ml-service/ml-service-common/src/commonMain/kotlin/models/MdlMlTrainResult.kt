@@ -23,7 +23,9 @@ data class MdlMlTrainResult (
     ,
 
     /* Ошибка */
-    var error: kotlin.Double = 0.0
+    var error: kotlin.Double = 0.0,
+
+    var id :MdlMlId = MdlMlId.NONE
 ){
     fun isEmpty() = this == NONE
 

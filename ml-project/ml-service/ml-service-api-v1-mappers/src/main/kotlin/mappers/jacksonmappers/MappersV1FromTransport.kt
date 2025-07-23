@@ -25,7 +25,8 @@ private fun TransformMl?.toInternal(): MdlMlTransform = if (this != null) {
         dateStart = dateStart,
         dateEnd = dateEnd,
         dateOffset = dateOffset,
-        batchSize = batchSize
+        batchSize = batchSize,
+        id = id.toMlId()
     )
 } else {
     MdlMlTransform()
@@ -67,7 +68,7 @@ fun MdlContext.fromTransport(request: MlCreateRequest) {
 fun MdlContext.fromTransport(request: AnalyticMlReadRequest) {
     command = MdlCommand.ANALITYCML
     mlAnalyticMl = request.ml.toInternal()
-    mlResponseTrainModel = MdlMlTrainResultStubs.ML_TrainResult
+    mlResponseTrainResult = MdlMlTrainResultStubs.ML_TrainResult
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
@@ -80,7 +81,10 @@ fun MdlContext.fromTransport(request: MlReadRequest) {
 }
 
 private fun MlReadObject?.toInternal(): MdlMl = if (this != null) {
-    MdlMl(title = title)
+    MdlMl(
+        title = title,
+        id = id.toMlId()
+    )
 } else {
     MdlMl()
 }
@@ -93,7 +97,8 @@ private fun AnalyticMl?.toInternal(): MdlMlAnalytic = if (this != null) {
         dateEnd = dateEnd,
         evalPivotPoint = evalPivotPoint,
         dateOffset = dateOffset,
-        modelParameters = MdlMlModelParameters()
+        modelParameters = MdlMlModelParameters(),
+        id = id.toMlId()
     )
 } else {
     MdlMlAnalytic()
@@ -116,7 +121,8 @@ fun MdlContext.fromTransport(request: MlDeleteRequest) {
 
 private fun MlDeleteObject?.toInternal(): MdlMl = if (this != null) {
     MdlMl(
-        title = title
+        title = title,
+        id = id.toMlId()
     )
 } else {
     MdlMl()
@@ -135,12 +141,15 @@ private fun MlSearchFilter?.toInternal(): MdlMlFilter = MdlMlFilter(
 
 private fun MlCreateObject.toInternal(): MdlMl = MdlMl(
     title = this.title ?: "",
-    description = this.description ?: ""
+    description = this.description ?: "",
+    id = this.id.toMlId()
 )
 
 private fun MlUpdateObject.toInternal(): MdlMl = MdlMl(
-    title = this.title ?: ""
+    title = this.title ?: "",
+    id = this.id.toMlId()
 )
 
+private fun String?.toMlId() = this?.let { MdlMlId(it) } ?: MdlMlId.NONE
 
 

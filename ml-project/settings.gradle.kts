@@ -19,6 +19,9 @@ includeBuild("build-plugin")
 //includeBuild("lessons")
 includeBuild("ml-service")
 includeBuild("ml-service-libs")
+includeBuild("ml-service-other")
+//includeBuild("ml-service-tests")
+
 
 /*plugins {
     // Apply the foojay-resolver plugin to allow automatic download of JDKs

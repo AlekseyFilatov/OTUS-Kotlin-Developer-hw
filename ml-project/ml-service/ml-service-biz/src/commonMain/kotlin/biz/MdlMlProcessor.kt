@@ -3,29 +3,28 @@ package api.kotlinproject.biz
 import api.kotlinproject.biz.general.initStatus
 import api.kotlinproject.biz.general.operation
 import api.kotlinproject.biz.general.stubs
+import api.kotlinproject.biz.repo.*
 import api.kotlinproject.biz.stubs.*
 import api.kotlinproject.biz.validation.*
 import api.kotlinproject.common.MdlContext
 import api.kotlinproject.common.MdlCorSettings
 import api.kotlinproject.common.models.MdlCommand
 import api.kotlinproject.common.models.MdlMlTitle
+import api.kotlinproject.common.models.MdlState
+import api.kotlinproject.cor.chain
 import api.kotlinproject.cor.rootChain
 import api.kotlinproject.cor.worker
-import biz.stubs.stubAnalyticSuccess
-import biz.stubs.stubTransformSuccess
-import biz.stubs.stubValidationBadAnalytic
-import biz.stubs.stubValidationBadTransform
-import biz.validation.validateAnalyticFieldsNotEmpty
-import biz.validation.validateAnalyticHasContent
-import biz.validation.validateTransformHasContent
 
 class MdlMlProcessor(
-    private val corSettings: MdlCorSettings = MdlCorSettings.NONE
+    private val corSettings: MdlCorSettings = MdlCorSettings.NONE,
 ) {
-    suspend fun exec(ctx: MdlContext) = businessChain.exec(ctx.also { it.corSettings = corSettings })
-
+    suspend fun exec(ctx: MdlContext) = businessChain.exec(ctx.also
+    {
+        it.corSettings = corSettings
+    })
     private val businessChain = rootChain<MdlContext> {
         initStatus("Инициализация статуса")
+        initRepo("Инициализация репозитория")
 
         operation("Создание модели", MdlCommand.CREATE) {
             stubs("Обработка стабов") {
@@ -46,11 +45,18 @@ class MdlMlProcessor(
 
                 finishMlValidation("Завершение проверок")
             }
+            chain {
+                title = "Логика сохранения"
+                repoPrepareCreate("Подготовка объекта для сохранения")
+                repoCreate("Создание объявления в БД")
+            }
+            prepareResult("Подготовка ответа")
         }
         operation("Получить модель", MdlCommand.READ) {
             stubs("Обработка стабов") {
                 stubReadSuccess("Имитация успешной обработки", corSettings)
                 stubValidationBadTitle("Имитация ошибки валидации title")
+
                 stubDbError("Имитация ошибки работы с БД")
                 stubNoCase("Ошибка: запрошенный стаб недопустим")
             }
@@ -60,9 +66,21 @@ class MdlMlProcessor(
                     MdlMlTitle(mlValidating.title.toString().trim()).asString()
                 }
                 validateTitleNotEmpty("Проверка на непустой title")
-
+                worker("Копируем поля в mlValidating") {
+                    mlValidating = mlRequest.deepCopy()
+                }
                 finishMlValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика чтения"
+                repoRead("Чтение модели из БД")
+                worker {
+                    title = "Подготовка ответа для Read"
+                    on { state == MdlState.RUNNING }
+                    handle {mlRepoDone = mlRepoRead }
+                }
+            }
+            prepareResult("Подготовка ответа")
         }
         operation("Изменить модель", MdlCommand.UPDATE) {
             stubs("Обработка стабов") {
@@ -78,11 +96,17 @@ class MdlMlProcessor(
                 worker("Очистка описания") { mlValidating.description = mlValidating.description.trim() }
                 validateTitleNotEmpty("Проверка на непустой заголовок")
                 validateTitleHasContent("Проверка на наличие содержания в заголовке")
-                validateDescriptionNotEmpty("Проверка на непустое описание")
-                validateDescriptionHasContent("Проверка на наличие содержания в описании")
-
+                //validateDescriptionNotEmpty("Проверка на наличие содержания в описании")
+                //validateDescriptionHasContent("Проверка на наличие содержания в описании")
                 finishMlValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика сохранения"
+                repoRead("Чтение модели из БД")
+                repoPrepareUpdate("Подготовка модели для обновления")
+                repoUpdate("Обновление модели в БД")
+            }
+            prepareResult("Подготовка ответа")
         }
         operation("Удалить модель", MdlCommand.DELETE) {
             stubs("Обработка стабов") {
@@ -101,6 +125,13 @@ class MdlMlProcessor(
                 validateTitleProperFormat("Проверка формата title")
                 finishMlValidation("Успешное завершение процедуры валидации")
             }
+            chain {
+                title = "Логика удаления"
+                repoRead("Чтение объявления из БД")
+                repoPrepareDelete("Подготовка объекта для удаления")
+                repoDelete("Удаление объявления из БД")
+            }
+            prepareResult("Подготовка ответа")
         }
         operation("Поиск моделей", MdlCommand.SEARCH) {
             stubs("Обработка стабов") {
@@ -115,37 +146,8 @@ class MdlMlProcessor(
 
                 finishMlValidation("Успешное завершение процедуры валидации")
             }
-        }
-        operation("Запрос analytic", MdlCommand.ANALITYCML) {
-            stubs("Обработка стабов") {
-                stubAnalyticSuccess("Имитация успешной обработки", corSettings)
-
-                stubValidationBadAnalytic("Имитация ошибки валидации analytic fields")
-                stubDbError("Имитация ошибки работы с БД")
-                stubNoCase("Ошибка: запрошенный стаб недопустим")
-            }
-            validation {
-                worker("Копируем поля в mlAnalyticValidating") { mlAnalyticValidating = mlAnalyticMl.deepCopy() }
-                worker("Копируем поля в mlResponseTrainModelValidating") { mlResponseTrainModelValidating = mlResponseTrainModel.deepCopy() }
-                validateAnalyticHasContent("Валидация наличия текста в полях запроса")
-                validateAnalyticFieldsNotEmpty("Валидация заполнения полей запроса")
-                finishMlValidation("Успешное завершение процедуры валидации")
-            }
-        }
-        operation("Запрос transform", MdlCommand.TRANSFORMML) {
-            stubs("Обработка стабов") {
-                stubTransformSuccess("Имитация успешной обработки", corSettings)
-
-                stubValidationBadTransform("Имитация ошибки валидации transform fields")
-                stubDbError("Имитация ошибки работы с БД")
-                stubNoCase("Ошибка: запрошенный стаб недопустим")
-            }
-            validation {
-                worker("Копируем поля в mlTransformValidating") { mlTransformValidating = mlTransformMl.deepCopy() }
-                worker("Копируем поля в mlResponseTrainModelValidating") { mlResponseTrainModelValidating = mlResponseTrainModel.deepCopy() }
-                validateTransformHasContent("Валидация наличия текста в полях запроса")
-                finishMlValidation("Успешное завершение процедуры валидации")
-            }
+            repoSearch("Поиск моделей в БД по фильтру")
+            prepareResult("Подготовка ответа")
         }
 
     }.build()

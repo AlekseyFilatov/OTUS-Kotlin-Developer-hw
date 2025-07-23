@@ -52,7 +52,8 @@ fun MdlContext.fromTransport(request: MlReadRequest) {
 private fun MlReadObject?.toInternal(): MdlMl = if (this != null) {
     MdlMl(
         title = title,
-        description = "")
+        description = "",
+        id = id.toMlId())
 } else {
     MdlMl()
 }
@@ -74,7 +75,8 @@ fun MdlContext.fromTransport(request: MlDeleteRequest) {
 
 private fun MlDeleteObject?.toInternal(): MdlMl = if (this != null) {
     MdlMl(
-        title = title
+        title = title,
+        id = id.toMlId()
     )
 } else {
     MdlMl()
@@ -119,7 +121,7 @@ fun MdlContext.fromTransport(request: TransformMlUpdateRequest) {
 fun MdlContext.fromTransport(request: AnalyticMlReadRequest) {
     command = MdlCommand.ANALITYCML
     mlAnalyticMl = request.ml.toInternal()
-    mlResponseTrainModel = MdlMlTrainResultStubs.ML_TrainResult
+    mlResponseTrainResult = MdlMlTrainResultStubs.ML_TrainResult
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
@@ -137,13 +139,16 @@ private fun MlSearchFilter?.toInternal(): MdlMlFilter = MdlMlFilter(
 
 private fun MlCreateObject.toInternal(): MdlMl = MdlMl(
     title = title,
-    description = this.description ?: ""
+    description = this.description ?: "",
+    id = id.toMlId()
 )
 
 private fun MlUpdateObject.toInternal(): MdlMl = MdlMl(
-    title = title
+    title = title,
+    id = id.toMlId()
 )
 
 private fun String?.toMlTitle() = this?.let { MdlMlTitle(it) } ?: MdlMlTitle.NONE
+private fun String?.toMlId() = this?.let { MdlMlId(it) } ?: MdlMlId.NONE
 
 

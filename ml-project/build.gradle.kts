@@ -21,8 +21,28 @@ subprojects {
 }
 
 tasks {
-    register("check") {
+    register("clean") {
+        group = "build"
+        gradle.includedBuilds.forEach {
+            dependsOn(it.task(":clean"))
+        }
+    }
+    val buildMigrations: Task by creating {
+        dependsOn(gradle.includedBuild("ml-service-other").task(":buildImages"))
+    }
+    val buildImages: Task by creating {
+        dependsOn(buildMigrations)
+        dependsOn(gradle.includedBuild("ml-service").task(":buildImages"))
+    }
+/*    val e2eTests: Task by creating {
+        dependsOn(buildImages)
+        dependsOn(gradle.includedBuild("ml-service-tests").task(":e2eTests"))
+        mustRunAfter(buildImages)
+    }*/
+
+    create("check") {
         group = "verification"
-        dependsOn(gradle.includedBuild("ml-service").task(":check"))
+        dependsOn(buildImages)
+        //dependsOn(e2eTests)
     }
 }
