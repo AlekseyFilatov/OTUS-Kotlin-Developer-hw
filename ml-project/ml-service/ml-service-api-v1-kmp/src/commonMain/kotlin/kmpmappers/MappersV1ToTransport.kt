@@ -21,7 +21,7 @@ fun MdlContext.toTransportMl() :IResponse = when (val cmd = command) {
 fun MdlContext.toTransportAnalytic() = AnalyticMlReadResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
-    ml = mlResponseTrainModel.toTransportMl()
+    ml = mlResponseTrainResult.toTransportMl()
 )
 
 fun MdlContext.toTransportInit() = MlInitResponse(
@@ -91,7 +91,7 @@ fun List<MdlMl>.toTransportMl(): List<MlResponseObject>? = this
 
 fun MdlMl.toTransportMl(): MlResponseObject = MlResponseObject(
     title = title?.takeIf { it.isNotBlank() },
-    description = description.takeIf { it.isNotBlank() }
+    description = description.takeIf { it.isNotBlank() },
 )
 
 private fun List<MdlError>.toTransportErrors(): List<Error>? = this

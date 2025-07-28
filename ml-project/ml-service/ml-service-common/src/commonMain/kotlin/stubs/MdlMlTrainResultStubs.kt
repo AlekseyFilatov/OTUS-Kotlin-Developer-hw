@@ -1,5 +1,6 @@
 package api.kotlinproject.common.stubs
 
+import api.kotlinproject.common.models.MdlMlId
 import api.kotlinproject.common.models.MdlMlTrainResult
 
 object MdlMlTrainResultStubs {
@@ -10,7 +11,8 @@ object MdlMlTrainResultStubs {
       labelDatetime = "2025-01-01",
       realResult = 0.1,
       prediction = 0.1,
-      error = 0.1
+      error = 0.1,
+      id = MdlMlId("1")
     )
 }
 

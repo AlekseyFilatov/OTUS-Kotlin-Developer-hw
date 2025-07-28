@@ -33,6 +33,7 @@ dependencies {
 //    implementation(libs.plugin.dokka)
     implementation(libs.plugin.binaryCompatibilityValidator)
 //    implementation(libs.plugin.mavenPublish)
+    implementation(libs.testcontainers.core)
 }
 
 /*subprojects {

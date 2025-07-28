@@ -1,6 +1,6 @@
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+//import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+//import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
+//import com.bmuschko.gradle.docker.tasks.image.Dockerfile
 import io.ktor.plugin.features.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 
@@ -11,8 +11,8 @@ plugins {
 //    id("io.ktor.plugin")
     alias(libs.plugins.ktor)
   //  id("com.bmuschko.docker-remote-api") //- Универсальный плагин для докера
-    alias(libs.plugins.muschko.remote)
-
+    //alias(libs.plugins.muschko.remote)
+    alias(libs.plugins.palantir.docker)
 }
 
 application {
@@ -22,15 +22,17 @@ application {
 ktor {
     configureNativeImage(project)
     docker {
-        localImageName.set(project.name)
+        localImageName.set("${project.name}-jvm")
         imageTag.set(project.version.toString())
-        jreVersion.set(JavaVersion.VERSION_21)
+        jreVersion.set(JavaVersion.toVersion(libs.versions.jvm.language.get()))
     }
 }
+
 
 jib {
     container.mainClass = application.mainClass.get()
 }
+
 
 kotlin {
     // !!! Обязательно. Иначе не проходит сборка толстых джанриков в shadowJar
@@ -74,6 +76,12 @@ kotlin {
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktor.serialization.json)
 
+                // DB
+                implementation(libs.uuid)
+                implementation(projects.mlServiceRepoStubs)
+                implementation(projects.mlServiceRepoInmemory)
+                implementation(projects.mlServiceRepoCommon)
+
                 // logging
                 implementation(project(":ml-service-api-log1"))
                 implementation("api.kotlinproject.libs:ml-service-lib-logging-common")
@@ -87,6 +95,9 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+
+                // DB
+                implementation(projects.mlServiceRepoCommon)
 
                 implementation(project(":ml-service-app-ktor"))
                 implementation(project(":ml-service-api-v1-kmp"))
@@ -109,8 +120,9 @@ kotlin {
                 // transport models
                 implementation(project(":ml-service-api-v1-jackson"))
                 implementation(project(":ml-service-api-v1-mappers"))
+                implementation(projects.mlServiceRepoCassandra)
 
-
+                implementation(libs.testcontainers.cassandra)
                 implementation("api.kotlinproject.libs:ml-service-lib-logging-logback")
 
             }
@@ -123,10 +135,16 @@ kotlin {
                 implementation(kotlin("test-junit"))
             }
         }
+
+        val linuxX64Main by getting {
+            dependencies {
+                //implementation(projects.mlServiceRepoPgntv)
+            }
+        }
     }
 }
 
-tasks {
+/*tasks {
     shadowJar {
         isZip64 = true
     }
@@ -181,6 +199,35 @@ tasks {
             username.set(registryUser)
             password.set(registryPass)
             url.set("https://$registryHost/v1/")
+        }
+    }
+}*/
+
+tasks {
+    shadowJar {
+        isZip64 = true
+    }
+
+    // Если ошибка: "Entry application.yaml is a duplicate but no duplicate handling strategy has been set."
+    // Возникает из-за наличия файлов как в common, так и в jvm платформе
+    withType(ProcessResources::class) {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
+    val linkReleaseExecutableLinuxX64 by getting(KotlinNativeLink::class)
+    val nativeFileX64 = linkReleaseExecutableLinuxX64.binary.outputFile
+    val linuxX64ProcessResources by getting(ProcessResources::class)
+    dockerPrepare {
+        dependsOn(linkReleaseExecutableLinuxX64)
+        dependsOn(linuxX64ProcessResources)
+        group = "docker"
+        this.destinationDir
+        doFirst {
+            copy {
+                from(nativeFileX64)
+                from(linuxX64ProcessResources.destinationDir)
+                into(this@dockerPrepare.destinationDir)
+            }
         }
     }
 }

@@ -22,7 +22,9 @@ data class MdlMlTransform  constructor(
     ,
 
     /* batch_size */
-    var batchSize: kotlin.Int? = 0
+    var batchSize: kotlin.Int? = 0,
+
+    var id :MdlMlId = MdlMlId.NONE
 ) {
     fun isEmpty() = this == NONE
 

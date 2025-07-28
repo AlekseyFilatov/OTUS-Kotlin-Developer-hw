@@ -1,13 +1,11 @@
 package api.kotlinproject.common.stubs
 
-import api.kotlinproject.common.models.MdlMlAnalytic
-import api.kotlinproject.common.models.MdlMlModelParameters
-import api.kotlinproject.common.models.MdlMlTaskNumber
-import api.kotlinproject.common.models.MdlMlTicker
+import api.kotlinproject.common.models.*
 
 object MdlMlAnalyticStubs {
     val ML_Analytic: MdlMlAnalytic
         get() = MdlMlAnalytic(
+            id = MdlMlId("1"),
             ticker = MdlMlTicker("NVDA"),
             taskNumber = MdlMlTaskNumber("123"),
             dateStart = "1900-01-01",
@@ -25,6 +23,7 @@ object MdlMlAnalyticStubs {
                 updater = "1"
             ),
             dateOffset = 1.toLong(),
-            batchSize = 1.toLong()
+            batchSize = 1.toLong(),
+
         )
 }

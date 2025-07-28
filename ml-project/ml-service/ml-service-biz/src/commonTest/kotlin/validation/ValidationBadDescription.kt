@@ -2,10 +2,7 @@ package api.kotlinproject.biz.validation
 
 import api.kotlinproject.biz.MdlMlProcessor
 import api.kotlinproject.common.MdlContext
-import api.kotlinproject.common.models.MdlCommand
-import api.kotlinproject.common.models.MdlMl
-import api.kotlinproject.common.models.MdlState
-import api.kotlinproject.common.models.MdlWorkMode
+import api.kotlinproject.common.models.*
 import api.kotlinproject.stubs.MdlMlStub
 import kotlinx.coroutines.test.runTest
 import kotlin.test.assertContains
@@ -22,6 +19,7 @@ fun validationDescriptionCorrect(command: MdlCommand, processor: MdlMlProcessor)
         mlRequest = MdlMl(
             title = stub.title,
             description = "abc",
+            id = MdlMlId("1")
         ),
     )
     processor.exec(ctx)
@@ -38,6 +36,7 @@ fun validationDescriptionTrim(command: MdlCommand, processor: MdlMlProcessor) = 
         mlRequest = MdlMl(
             title = stub.title,
             description = " \n\tabc \n\t",
+            id = MdlMlId("1")
         ),
     )
     processor.exec(ctx)
@@ -54,6 +53,7 @@ fun validationDescriptionEmpty(command: MdlCommand, processor: MdlMlProcessor) =
         mlRequest = MdlMl(
             title = stub.title,
             description = "",
+            id = MdlMlId("1")
         ),
     )
     processor.exec(ctx)
@@ -72,6 +72,7 @@ fun validationDescriptionSymbols(command: MdlCommand, processor: MdlMlProcessor)
         mlRequest = MdlMl(
             title = stub.title,
             description = "!@#$%^&*(),.{}",
+            id = MdlMlId("1")
         ),
     )
     processor.exec(ctx)

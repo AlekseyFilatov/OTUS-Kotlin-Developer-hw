@@ -1,5 +1,6 @@
 [versions]
 kotlin = "2.1.0"
+mdl = "0.0.1"
 
 kotlinx-datetime = "0.6.2"
 kotlinx-serialization = "1.8.1"
@@ -11,9 +12,13 @@ binaryCompabilityValidator = "0.13.2"
 openapi-generator = "7.12.0"
 jackson = "2.18.3"
 
-logback = "1.5.3"
+logback = "1.5.18"
 kotest = "6.0.0.M2"
 kermit = "2.0.3"
+
+liquibase = "4.27.0"
+exposed = "0.50.0"
+cassandra = "4.17.0"
 
 #Frameworks
 ktor = "2.3.12"
@@ -22,21 +27,23 @@ ktor = "2.3.12"
 muschko = "9.4.0"
 
 #Testing
-#testcontainers = "1.19.7"
+testcontainers = "1.21.3"
 
 # BASE
-jvm-compiler = "17"
+jvm-compiler = "21"
 jvm-language = "21"
 
 [libraries]
+# kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 # plugin-binaryCompatibilityValidator = "org.jetbrains.kotlinx:binary-compatibility-validator:0.13.2"
 # kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.6.1" }
 plugin-binaryCompatibilityValidator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompabilityValidator" }
-
+#coroutines-jdk9 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9", version.ref = "coroutines" }
+kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version = "0.23.2" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
-kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version = "0.23.2" }
 
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinx-serialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
@@ -50,6 +57,7 @@ cor = { module = "api.kotlinproject.libs:ml-service-lib-cor" }
 
 jackson-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 jackson-datatype = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 
 # Logging
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -77,26 +85,58 @@ ktor-server-calllogging = { module = "io.ktor:ktor-server-call-logging", version
 ktor-server-websocket = { module = "io.ktor:ktor-server-websockets", version.ref = "ktor" }
 ktor-server-test = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor" }
 
+uuid = "com.benasher44:uuid:0.8.4"
+
+# Databases
+db-cache4k = "io.github.reactivecircus.cache4k:cache4k:0.13.0"
+
 # Testing
 kotest-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version = "5.2.1" }
 
-# testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+db-exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+db-exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
+db-exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+db-cassandra-core = { module = "com.datastax.oss:java-driver-core", version.ref = "cassandra" }
+db-cassandra-qbuilder = { module = "com.datastax.oss:java-driver-query-builder", version.ref = "cassandra" }
+db-cassandra-kapt = { module = "com.datastax.oss:java-driver-mapper-processor", version.ref = "cassandra" }
+db-cassandra-mapper = { module = "com.datastax.oss:java-driver-mapper-runtime", version.ref = "cassandra" }
+
+
+# Liquidbase
+liquibase-core = {module = "org.liquibase:liquibase-core", version.ref = "liquibase"}
+liquibase-picocli = "info.picocli:picocli:4.7.5"
+liquibase-snakeyml = "org.yaml:snakeyaml:1.33"
+
+testcontainers-cassandra = { module = "org.testcontainers:cassandra", version.ref = "testcontainers" }
+testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "testcontainers" }
+
+mdl-logs-common = { module = "api.kotlinproject.libs:ml-service-lib-logging-common", version.ref = "mdl" }
+mdl-logs-kermit = { module = "api.kotlinproject.libs:ml-service-lib-logging-kermit", version.ref = "mdl" }
+mdl-logs-logback = { module = "api.kotlinproject.libs:ml-service-lib-logging-logback", version.ref = "mdl" }
+mdl-logs-socket = { module = "api.kotlinproject.libs:ml-service-lib-logging-socket", version.ref = "mdl" }
+mdl-cor = { module = "api.kotlinproject.libs:ml-service-lib-cor", version.ref = "mdl" }
+mdl-state-common = { module = "api.kotlinproject.state:ml-service-states-common", version.ref = "mdl" }
+mdl-state-biz = { module = "api.kotlinproject.state:ml-service-biz", version.ref = "mdl" }
+
 
 [bundles]
 kotest = ["kotest-junit5", "kotest-core", "kotest-property"]
-
-
+cassandra = ["db-cassandra-core", "db-cassandra-mapper", "db-cassandra-qbuilder"]
+exposed = ["db-exposed-core", "db-exposed-dao", "db-exposed-jdbc"]
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 openapi-generator = { id = "org.openapi.generator", version.ref = "openapi-generator" }
 crowdproj-generator = { id = "com.crowdproj.generator", version = "0.3.0" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+shadowJar = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
+liquibase = { id = "org.liquibase.gradle", version = "2.2.2" }
+
 
 # Ktor
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
@@ -104,3 +144,4 @@ ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 # Docker
 muschko-remote = { id = "com.bmuschko.docker-remote-api", version.ref = "muschko" }
 muschko-java = { id = "com.bmuschko.docker-java-application", version.ref = "muschko" }
+palantir-docker = "com.palantir.docker:0.36.0"

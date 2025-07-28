@@ -3,6 +3,7 @@ package api.kotlinproject.app.ktor
 import api.kotlinproject.api.v1.apiV2Mapper
 import api.kotlinproject.app.ktor.plugins.initAppSettings
 import api.kotlinproject.app.ktor.v2.v2Ml
+import api.kotlinproject.app.ktor.v2.wsHandlerV2
 import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
@@ -11,7 +12,6 @@ import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
-import api.kotlinproject.app.ktor.v2.wsHandlerV2
 
 fun Application.module(
     appSettings: MdlAppSettings = initAppSettings()

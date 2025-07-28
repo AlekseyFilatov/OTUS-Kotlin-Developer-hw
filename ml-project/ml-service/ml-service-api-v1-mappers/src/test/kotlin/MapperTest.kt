@@ -1,12 +1,9 @@
-
+package api.kotlinproject.mappers.v1.jacksonmappers
 
 import api.kotlinproject.api.jackson.v1.models.*
 import api.kotlinproject.common.MdlContext
 import api.kotlinproject.common.models.*
 import api.kotlinproject.common.stubs.MdlStubs
-import api.kotlinproject.mappers.v1.jacksonmappers.fromTransport
-import api.kotlinproject.mappers.v1.jacksonmappers.toTransportCreateMl
-import api.kotlinproject.mappers.v1.jacksonmappers.toTransportMl
 import api.kotlinproject.stubs.MdlMlStub
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -23,6 +20,7 @@ class MapperTest {
         )
         val expected = MdlMlStub.prepareResult {
             title = "forrest"
+            id = MdlMlId.NONE
         }
 
         val context = MdlContext()

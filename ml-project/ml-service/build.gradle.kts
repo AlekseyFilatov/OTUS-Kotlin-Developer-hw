@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
 }
 
 group = "api.kotlinproject"
@@ -38,5 +39,9 @@ tasks {
             group = "build"
             dependsOn(subprojects.map { it.getTasksByName(tsk, false) })
         }
+    }
+    create("buildImages") {
+        //dependsOn(project("ml-service-app-ktor").tasks.getByName("publishImageToLocalRegistry"))
+        //dependsOn(project("ml-service-app-ktor").tasks.getByName("docker"))
     }
 }

@@ -17,10 +17,15 @@ fun Throwable.asMdlError(
     exception = this
 )
 
-inline fun MdlContext.addError(vararg error: MdlError) = errors.addAll(error)
-
+inline fun MdlContext.addError(error: MdlError) = errors.add(error)
+inline fun MdlContext.addErrors(error: Collection<MdlError>) = errors.addAll(error)
 inline fun MdlContext.fail(error: MdlError) {
     addError(error)
+    state = MdlState.FAILING
+}
+
+inline fun MdlContext.fail(errors: Collection<MdlError>) {
+    addErrors(errors)
     state = MdlState.FAILING
 }
 
@@ -39,4 +44,17 @@ inline fun errorValidation(
     group = "validation",
     message = "Validation error for field $field: $description",
     level = level,
+)
+
+
+inline fun errorSystem(
+    violationCode: String,
+    level: LogLevel = LogLevel.ERROR,
+    e: Throwable,
+) = MdlError(
+    code = "system-$violationCode",
+    group = "system",
+    message = "System error occurred. Our stuff has been informed, please retry later",
+    level = level,
+    exception = e,
 )

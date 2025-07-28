@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+<changeSet id="001" author="aleksey-filatov">
+    <sqlFile path="scripts/001-create-mls.cql"
+             relativeToChangelogFile="true"
+             splitStatements="true"
+             endDelimiter=";"/>
+</changeSet>
+<changeSet id="002" author="aleksey-filatov">
+        <sqlFile path="scripts/002-create-mls.cql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 endDelimiter=";"/>
+</changeSet>
+<changeSet id="003" author="aleksey-filatov">
+        <sqlFile path="scripts/003-create-mls.cql"
+                 relativeToChangelogFile="true"
+                 splitStatements="true"
+                 endDelimiter=";"/>
+</changeSet>
+</databaseChangeLog>

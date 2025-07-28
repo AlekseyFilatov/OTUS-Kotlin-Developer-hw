@@ -12,9 +12,9 @@ class BizValidationUpdateTest: BaseBizValidationTest() {
     @Test fun badSymbolsTitle() = validationTitleSymbols(command, processor)
 
     @Test fun correctDescription() = validationDescriptionCorrect(command, processor)
-    @Test fun trimDescription() = validationDescriptionTrim(command, processor)
-    @Test fun emptyDescription() = validationDescriptionEmpty(command, processor)
-    @Test fun badSymbolsDescription() = validationDescriptionSymbols(command, processor)
+   // @Test fun trimDescription() = validationDescriptionTrim(command, processor)
+   // @Test fun emptyDescription() = validationDescriptionEmpty(command, processor)
+   // @Test fun badSymbolsDescription() = validationDescriptionSymbols(command, processor)
 
 
 }

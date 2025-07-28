@@ -31,7 +31,7 @@ fun MdlContext.toTransportInit() = MlInitResponse(
 fun MdlContext.toTransportAnalytic() = AnalyticMlReadResponse(
     result = state.toResult(),
     errors = errors.toTransportErrors(),
-    ml = mlResponseTrainModel.toTransportMl()
+    ml = mlResponseTrainResult.toTransportMl()
 )
 
 fun MdlContext.toTransportTransform() = TransformMlUpdateResponse(
@@ -42,11 +42,12 @@ fun MdlContext.toTransportTransform() = TransformMlUpdateResponse(
 
 fun MdlMlTrainResult.toTransportMl() = TrainResultMl(
         dateTime = dateTime,
-        close = close?.toBigDecimal(),
+        close = close.toBigDecimal(),
         labelDatetime = labelDatetime,
-        realResult = realResult?.toBigDecimal(),
-        prediction = prediction?.toBigDecimal(),
-        error = error?.toBigDecimal()
+        realResult = realResult.toBigDecimal(),
+        prediction = prediction.toBigDecimal(),
+        error = error.toBigDecimal(),
+        id = id.asString()
 )
 
 fun MdlMlTransform.toTransportMl() = TransformMl(
@@ -55,7 +56,8 @@ fun MdlMlTransform.toTransportMl() = TransformMl(
     dateStart = dateStart,
     dateEnd = dateEnd,
     dateOffset = dateOffset,
-    batchSize = batchSize
+    batchSize = batchSize,
+    id = id.asString()
 )
 
 fun MdlContext.toTransportCreate() = MlCreateResponse(
@@ -101,19 +103,19 @@ fun MdlMl.toTransportMl(): MlResponseObject = MlResponseObject(
 internal fun MdlMlTitle.toTransportMl() = takeIf { it != MdlMlTitle.NONE }?.asString()
 
 
-private fun List<MdlError>.toTransportErrors(): List<Error>? = this
+internal fun List<MdlError>.toTransportErrors(): List<Error>? = this
     .map { it.toTransportMl() }
     .toList()
     .takeIf { it.isNotEmpty() }
 
-private fun MdlError.toTransportMl() = Error(
+internal fun MdlError.toTransportMl() = Error(
     code = code.takeIf { it.isNotBlank() },
     group = group.takeIf { it.isNotBlank() },
     field = field.takeIf { it.isNotBlank() },
     message = message.takeIf { it.isNotBlank() },
 )
 
-private fun MdlState.toResult(): ResponseResult? = when (this) {
+internal fun MdlState.toResult(): ResponseResult? = when (this) {
     MdlState.RUNNING -> ResponseResult.SUCCESS
     MdlState.FAILING -> ResponseResult.ERROR
     MdlState.FINISHING -> ResponseResult.SUCCESS

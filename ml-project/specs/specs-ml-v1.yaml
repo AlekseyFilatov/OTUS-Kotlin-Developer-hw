@@ -401,6 +401,8 @@ components:
           $ref: '#/components/schemas/MlTitle'
         description:
           $ref: '#/components/schemas/description'
+        id:
+          $ref: '#/components/schemas/MlId'
     
     # REQUESTS & RESPONSES
     # MlCreate
@@ -442,6 +444,8 @@ components:
           properties:
             title:
               $ref: '#/components/schemas/MlTitle'
+            id:
+              $ref: '#/components/schemas/MlId'
 
     MlReadResponse:
       allOf:
@@ -466,6 +470,8 @@ components:
           properties:
             title:
               $ref: '#/components/schemas/MlTitle'
+            id:
+              $ref: '#/components/schemas/MlId'
 
 
     MlUpdateResponse:
@@ -496,6 +502,8 @@ components:
           properties:
             title:
               $ref: '#/components/schemas/MlTitle'
+            id:
+              $ref: '#/components/schemas/MlId'
         
     # mlSearch
     MlSearchRequest:
@@ -527,6 +535,8 @@ components:
       type: object
       description: Объект описывает запрос трансформации Ml модели
       properties:
+        id:
+          $ref: '#/components/schemas/MlId'
         ticker:
           type: string
           description: ticker 
@@ -601,6 +611,8 @@ components:
           $ref: '#/components/schemas/prediction'
         error:
           $ref: '#/components/schemas/error'
+        id:
+          $ref: '#/components/schemas/MlId'
 
     TrainResultMlResponseSingle:
       allOf:
@@ -684,7 +696,9 @@ components:
           description: date_offset 
         batch_size:
           type: integer
-          description: batch_size 
+          description: batch_size
+        id:
+          $ref: '#/components/schemas/MlId'
           
     ModelParameters:
       type: object
@@ -777,5 +791,9 @@ components:
     MlTitle:
       type: string
       description: Название ml модели
+
+    MlId:
+        type: string
+        description: id ml модели
 
     
