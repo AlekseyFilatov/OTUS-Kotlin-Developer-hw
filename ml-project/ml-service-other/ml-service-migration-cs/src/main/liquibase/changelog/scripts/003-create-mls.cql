@@ -5,5 +5,6 @@ CREATE TABLE IF NOT EXISTS transform_mls (
     dateStart text,
     dateEnd text,
     dateOffset text,
-    batchSize text
+    batchSize text,
+    title text
 );

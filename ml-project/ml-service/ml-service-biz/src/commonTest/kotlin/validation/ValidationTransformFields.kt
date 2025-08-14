@@ -22,7 +22,8 @@ fun validationTransformFieldsCorrect(command: MdlCommand, processor: MdlMlTransf
             dateStart = stub.dateStart,
             dateEnd = stub.dateEnd,
             dateOffset = stub.dateOffset,
-            batchSize = stub.batchSize
+            batchSize = stub.batchSize,
+            title = stub.title
         ),
     )
     processor.exec(ctx)

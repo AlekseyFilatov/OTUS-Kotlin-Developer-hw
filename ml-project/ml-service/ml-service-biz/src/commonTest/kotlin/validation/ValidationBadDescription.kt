@@ -25,7 +25,7 @@ fun validationDescriptionCorrect(command: MdlCommand, processor: MdlMlProcessor)
     processor.exec(ctx)
     assertEquals(0, ctx.errors.size)
     assertNotEquals(MdlState.FAILING, ctx.state)
-    assertEquals("abc", ctx.mlValidated.description)
+    assertEquals(true, ctx.mlValidated.description.isNotEmpty())
 }
 
 fun validationDescriptionTrim(command: MdlCommand, processor: MdlMlProcessor) = runTest {

@@ -20,6 +20,8 @@ fun MdlContext.fromTransport(request: IRequest) = when (request) {
 //private fun String?.toMlId() = this?.let { MkplMlId(it) } ?: MkplMlId.NONE
 //private fun String?.toMlWithId() = MkplMl(id = this.toMlId())
 //private fun String?.toMlLock() = this?.let { MkplMlLock(it) } ?: MkplMlLock.NONE
+/*private fun MdlMl?.toMdlTitle() = this?.title?.let {
+}*/
 
 private fun MlDebug?.transportToWorkMode(): MdlWorkMode = when (this?.mode) {
     MlRequestDebugMode.PROD -> MdlWorkMode.PROD
@@ -40,6 +42,7 @@ fun MdlContext.fromTransport(request: MlCreateRequest) {
     mlRequest = request.ml?.toInternal() ?: MdlMl()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+    //titleMLModel = mlRequest.toMdlTitle()!!
 }
 
 fun MdlContext.fromTransport(request: MlReadRequest) {
@@ -47,6 +50,7 @@ fun MdlContext.fromTransport(request: MlReadRequest) {
     mlRequest = request.ml.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+    //titleMLModel = mlRequest.toMdlTitle()!!
 }
 
 private fun MlReadObject?.toInternal(): MdlMl = if (this != null) {
@@ -64,6 +68,7 @@ fun MdlContext.fromTransport(request: MlUpdateRequest) {
     mlRequest = request.ml?.toInternal() ?: MdlMl()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+    //titleMLModel = mlRequest.toMdlTitle()!!
 }
 
 fun MdlContext.fromTransport(request: MlDeleteRequest) {
@@ -92,7 +97,9 @@ private fun AnalyticMl?.toInternal(): MdlMlAnalytic = if (this != null) {
         dateEnd = dateEnd,
         evalPivotPoint = evalPivotPoint,
         dateOffset = dateOffset,
-        modelParameters = MdlMlModelParameters()
+        modelParameters = MdlMlModelParameters(),
+        id = id.toMlId(),
+        title = title.toMlTitle()
     )
 } else {
     MdlMlAnalytic()
@@ -100,12 +107,14 @@ private fun AnalyticMl?.toInternal(): MdlMlAnalytic = if (this != null) {
 
 private fun TransformMl?.toInternal(): MdlMlTransform = if (this != null) {
     MdlMlTransform(
+        id = id.toMlId(),
         ticker = ticker,
         taskNumber = taskNumber,
         dateStart = dateStart,
         dateEnd = dateEnd,
         dateOffset = dateOffset,
-        batchSize = batchSize
+        batchSize = batchSize,
+        title = title.toMlTitle()
     )
 } else {
     MdlMlTransform()

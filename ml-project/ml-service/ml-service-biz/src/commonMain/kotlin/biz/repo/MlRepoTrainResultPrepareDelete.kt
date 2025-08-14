@@ -12,6 +12,6 @@ fun ICorChainDsl<MdlContext>.repoPrepareDeleteTrainResult(title: String) = worke
     """.trimIndent()
     on { state == MdlState.RUNNING }
     handle {
-        mlRepoTrainResultPrepare = mlTrainResultMl.deepCopy()
+        mlRepoTrainResultPrepare = mlTrainModelTrainResultDone.deepCopy()
     }
 }

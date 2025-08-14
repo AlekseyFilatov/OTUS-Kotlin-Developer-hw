@@ -26,7 +26,8 @@ private fun TransformMl?.toInternal(): MdlMlTransform = if (this != null) {
         dateEnd = dateEnd,
         dateOffset = dateOffset,
         batchSize = batchSize,
-        id = id.toMlId()
+        id = id.toMlId(),
+        title = title.toMlTitle()
     )
 } else {
     MdlMlTransform()
@@ -38,6 +39,16 @@ fun MdlContext.fromTransport(request: TransformMlUpdateRequest) {
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
 }
+
+/*private fun MdlMl?.toMdlTitle() = this?.title?.let {
+     when(this.title) {
+         "forest" -> Title.FORREST
+         "xgboost" -> Title.XGBOOST
+         "rapids" -> Title.RAPIDS
+         "stub" -> Title.STUB
+         else -> MdlTitle.NONE
+     }
+}*/
 
 //private fun String?.toAdId() = this?.let { MkplAdId(it) } ?: MkplAdId.NONE
 //private fun String?.toAdWithId() = MkplAd(id = this.toAdId())
@@ -58,11 +69,13 @@ private fun MlDebug?.transportToStubCase(): MdlStubs = when (this?.stub) {
     null -> MdlStubs.NONE
 }
 
+
 fun MdlContext.fromTransport(request: MlCreateRequest) {
     command = MdlCommand.CREATE
     mlRequest = request.ml?.toInternal() ?: MdlMl()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+    //titleMLModel = mlRequest.toMdlTitle()!!
 }
 
 fun MdlContext.fromTransport(request: AnalyticMlReadRequest) {
@@ -78,6 +91,7 @@ fun MdlContext.fromTransport(request: MlReadRequest) {
     mlRequest = request.ml.toInternal()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+    //titleMLModel = mlRequest.toMdlTitle()!!
 }
 
 private fun MlReadObject?.toInternal(): MdlMl = if (this != null) {
@@ -98,7 +112,8 @@ private fun AnalyticMl?.toInternal(): MdlMlAnalytic = if (this != null) {
         evalPivotPoint = evalPivotPoint,
         dateOffset = dateOffset,
         modelParameters = MdlMlModelParameters(),
-        id = id.toMlId()
+        id = id.toMlId(),
+        title = title.toMlTitle()
     )
 } else {
     MdlMlAnalytic()
@@ -110,6 +125,7 @@ fun MdlContext.fromTransport(request: MlUpdateRequest) {
     mlRequest = request.ml?.toInternal() ?: MdlMl()
     workMode = request.debug.transportToWorkMode()
     stubCase = request.debug.transportToStubCase()
+    //titleMLModel = mlRequest.toMdlTitle()!!
 }
 
 fun MdlContext.fromTransport(request: MlDeleteRequest) {
@@ -151,5 +167,6 @@ private fun MlUpdateObject.toInternal(): MdlMl = MdlMl(
 )
 
 private fun String?.toMlId() = this?.let { MdlMlId(it) } ?: MdlMlId.NONE
+private fun String?.toMlTitle() = this?.let { MdlMlTitle(it) } ?: MdlMlTitle.NONE
 
 

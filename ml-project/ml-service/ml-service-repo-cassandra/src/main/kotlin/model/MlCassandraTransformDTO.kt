@@ -1,6 +1,7 @@
 package api.kotlinproject.backend.repo.cassandra.model
 
 import api.kotlinproject.common.models.MdlMlId
+import api.kotlinproject.common.models.MdlMlTitle
 import api.kotlinproject.common.models.MdlMlTransform
 import com.datastax.oss.driver.api.mapper.annotations.CqlName
 import com.datastax.oss.driver.api.mapper.annotations.Entity
@@ -8,6 +9,9 @@ import com.datastax.oss.driver.api.mapper.annotations.PartitionKey
 
 @Entity
 data class MlCassandraTransformDTO(
+    @field:CqlName(COLUMN_ID)
+    @field:PartitionKey // можно задать порядок
+    var id: String? = null,
     @field:CqlName(COLUMN_TICKER)
     var ticker: String? = null,
     @field:CqlName(COLUMN_TASKNUMBER)
@@ -20,9 +24,8 @@ data class MlCassandraTransformDTO(
     var dateOffset: String? = null,
     @field:CqlName(COLUMN_BATCHSIZE)
     var batchSize: String? = null,
-    @field:CqlName(COLUMN_ID)
-    @field:PartitionKey // можно задать порядок
-    var id: String? = null,
+    @field:CqlName(COLUMN_TITLE)
+    var title: String? = null
 ) {
     constructor(model: MdlMlTransform) : this(
         ticker = model.ticker,
@@ -31,7 +34,8 @@ data class MlCassandraTransformDTO(
         dateEnd = model.dateEnd,
         dateOffset = model.dateOffset.toString(),
         batchSize = model.batchSize.toString(),
-        id = model.id.asString().takeIf { it.isNotBlank() },
+        id = model.id.asString(),
+        title = model.title.asString()
     )
 
     fun toMlTransformModel(): MdlMlTransform =
@@ -43,6 +47,7 @@ data class MlCassandraTransformDTO(
             dateEnd = dateEnd,
             dateOffset = dateOffset?.toLong(),
             batchSize = batchSize?.toInt(),
+            title = title?.let { MdlMlTitle(it) } ?: MdlMlTitle.NONE,
         )
 
     companion object {
@@ -55,6 +60,7 @@ data class MlCassandraTransformDTO(
         const val COLUMN_OFFSET = "dateoffset"
         const val COLUMN_BATCHSIZE = "batchsize"
         const val COLUMN_ID = "id"
+        const val COLUMN_TITLE = "title"
 
     }
 }

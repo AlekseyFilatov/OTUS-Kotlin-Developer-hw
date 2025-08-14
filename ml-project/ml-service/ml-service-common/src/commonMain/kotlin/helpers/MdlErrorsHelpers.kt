@@ -17,6 +17,7 @@ fun Throwable.asMdlError(
     exception = this
 )
 
+
 inline fun MdlContext.addError(error: MdlError) = errors.add(error)
 inline fun MdlContext.addErrors(error: Collection<MdlError>) = errors.addAll(error)
 inline fun MdlContext.fail(error: MdlError) {
@@ -25,6 +26,11 @@ inline fun MdlContext.fail(error: MdlError) {
 }
 
 inline fun MdlContext.fail(errors: Collection<MdlError>) {
+    addErrors(errors)
+    state = MdlState.FAILING
+}
+
+inline fun MdlContext.failTrain(errors: Collection<MdlError>) {
     addErrors(errors)
     state = MdlState.FAILING
 }

@@ -26,7 +26,7 @@ ktor:
   socketLogger:
     port: 24224
 
-marketplace:
+mlservice:
   repository:
     test: "inmemory"
     prod: "$DB_TYPE_PROD:inmemory"

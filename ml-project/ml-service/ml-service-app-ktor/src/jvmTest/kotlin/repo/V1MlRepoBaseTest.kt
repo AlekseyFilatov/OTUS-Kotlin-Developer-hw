@@ -16,8 +16,9 @@ import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.serialization.jackson.*
 import io.ktor.server.testing.*
+import junit.framework.TestCase.assertEquals
+import org.junit.Test
 import kotlin.test.Ignore
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
@@ -35,10 +36,13 @@ abstract class V1MlRepoBaseTest {
     protected val uuidNew = "10000000-0000-0000-0000-000000000002"
     protected val uuidSup = "10000000-0000-0000-0000-000000000003"
     protected val initMl = MdlMlStub.prepareResult {
+        title = "forrest"
         description = "описание модели"
         id = MdlMlId(uuidOld)
     }
     protected val initMlSupply = MdlMlStub.prepareResult {
+        title = "xgboost"
+        description = "описание модели"
         id = MdlMlId(uuidSup)
     }
 
@@ -56,9 +60,9 @@ abstract class V1MlRepoBaseTest {
         ) { response ->
             val responseObj = response.body<MlCreateResponse>()
             assertEquals(200, response.status.value)
-            //assertEquals(uuidNew, responseObj.ml?.id)
-            assertEquals(ml.title, responseObj.ml?.title)
-            assertEquals(ml.description, responseObj.ml?.description)
+            //assertEquals(uuidNew, responseObj.ml.id)
+            assertEquals(expected = ml.title, actual = responseObj.ml?.title, message = responseObj.errors?.joinToString ( "," ))
+            assertEquals(true, responseObj.ml?.description?.contains("learner"))
         }
     }
 
@@ -93,10 +97,12 @@ abstract class V1MlRepoBaseTest {
             val responseObj = response.body<MlUpdateResponse>()
             assertEquals(200, response.status.value, responseObj.errors?.joinToString ( separator = "; " ))
             //assertEquals(ml.id, responseObj.ml?.id)
-            assertEquals(ml.title, responseObj.ml?.title, responseObj.errors?.joinToString ( separator = "; " ))
+            assertEquals(expected = ml.title, actual = responseObj.ml?.title, message = responseObj.errors?.joinToString ( separator = "; " ))
 
         }
     }
+
+
     @Test
     fun delete() {
         val ml = initMl.toTransportDelete()

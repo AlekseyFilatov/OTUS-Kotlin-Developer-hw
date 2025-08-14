@@ -12,6 +12,6 @@ fun ICorChainDsl<MdlContext>.repoPrepareDeleteTransform(title: String) = worker 
     """.trimIndent()
     on { state == MdlState.RUNNING }
     handle {
-        mlRepoTransformPrepare = mlTransformMl.deepCopy()
+        mlRepoTransformPrepare = mlValidatedTransform.deepCopy()
     }
 }

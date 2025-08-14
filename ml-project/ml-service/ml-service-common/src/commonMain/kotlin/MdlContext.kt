@@ -5,6 +5,9 @@ import api.kotlinproject.common.repo.IRepoMl
 import api.kotlinproject.common.repo.IRepoMlTrainResult
 import api.kotlinproject.common.repo.IRepoMlTransform
 import api.kotlinproject.common.stubs.MdlStubs
+import api.kotlinproject.common.trainmodel.ITrainModelMl
+import api.kotlinproject.common.trainmodel.ITrainModelMlTrainResult
+import api.kotlinproject.common.trainmodel.ITrainModelMlTransform
 import api.kotlinproject.common.ws.IMdlWsSession
 import kotlinx.datetime.Instant
 
@@ -19,6 +22,7 @@ data class MdlContext constructor(
     var corSettingsTransform: MdlTransformCorrSettings = MdlTransformCorrSettings(),
     var workMode: MdlWorkMode = MdlWorkMode.PROD,
     var stubCase: MdlStubs = MdlStubs.NONE,
+    var titleMLModel: MdlTitle = MdlTitle(),
 
     var requestTitle: MdlRequestTitle = MdlRequestTitle.NONE,
     var timeStart: Instant = Instant.NONE,
@@ -65,5 +69,12 @@ data class MdlContext constructor(
     var mlRepoTransformRead: MdlMlTransform = MdlMlTransform(), // То, что прочитали из репозитория
     var mlRepoTransformPrepare: MdlMlTransform = MdlMlTransform(), // То, что готовим для сохранения в БД
     var mlRepoTransformDone: MdlMlTransform = MdlMlTransform(),  // Результат, полученный из БД
-    var mlsRepoTransformDone: MutableList<MdlMlTransform> = mutableListOf()
+    var mlsRepoTransformDone: MutableList<MdlMlTransform> = mutableListOf(),
+
+    var mlTrainModel: ITrainModelMl = ITrainModelMl.NONE,
+    var mlTrainModelTransform: ITrainModelMlTransform = ITrainModelMlTransform.NONE,
+    var mlTrainModelTrainResult: ITrainModelMlTrainResult = ITrainModelMlTrainResult.NONE,
+    var mlTrainModelResultDone: MdlMl = MdlMl(),
+    var mlTrainModelTrainResultDone: MdlMlTrainResult = MdlMlTrainResult(),
+    var mlTrainModelTransformDone: MdlMlTransform = MdlMlTransform()
     )

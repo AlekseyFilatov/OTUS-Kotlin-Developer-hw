@@ -1,6 +1,7 @@
 package api.kotlinproject.repo.inmemory
 
 import api.kotlinproject.common.models.MdlMlId
+import api.kotlinproject.common.models.MdlMlTitle
 import api.kotlinproject.common.models.MdlMlTransform
 
 data class MlTransformEntity(
@@ -11,6 +12,7 @@ data class MlTransformEntity(
     val dateEnd: String? = null,
     val dateOffset: String? = null,
     val batchSize: String? = null,
+    val title: String? = null,
 ) {
     constructor(model: MdlMlTransform): this(
         ticker = model.ticker,
@@ -20,6 +22,7 @@ data class MlTransformEntity(
         dateOffset = model.dateOffset.toString(),
         batchSize = model.batchSize.toString(),
         id = model.id.asString().takeIf { it.isNotBlank() },
+        title = model.title.asString()
     )
 
     fun toInternal() = MdlMlTransform(
@@ -30,6 +33,7 @@ data class MlTransformEntity(
         dateEnd = dateEnd,
         dateOffset = dateOffset?.toLong(),
         batchSize = batchSize?.toInt(),
+        title = title?.let { MdlMlTitle(it) } ?: MdlMlTitle.NONE
         // ownerId = ownerId?.let { MdlUserId(it) }?: MdlUserId.NONE,
     )
 }

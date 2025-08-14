@@ -24,6 +24,7 @@ object MdlMlAnalyticStubs {
             ),
             dateOffset = 1.toLong(),
             batchSize = 1.toLong(),
+            title = MdlMlTitle("forrest")
 
         )
 }

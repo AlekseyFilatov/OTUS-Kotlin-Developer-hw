@@ -5,6 +5,9 @@ import api.kotlinproject.biz.general.operation
 import api.kotlinproject.biz.general.stubs
 import api.kotlinproject.biz.repo.*
 import api.kotlinproject.biz.stubs.*
+import api.kotlinproject.biz.trainmodel.initTrainModel
+import api.kotlinproject.biz.trainmodel.trainModel
+import api.kotlinproject.biz.trainmodel.training
 import api.kotlinproject.biz.validation.*
 import api.kotlinproject.common.MdlContext
 import api.kotlinproject.common.MdlCorSettings
@@ -25,6 +28,7 @@ class MdlMlProcessor(
     private val businessChain = rootChain<MdlContext> {
         initStatus("Инициализация статуса")
         initRepo("Инициализация репозитория")
+        initTrainModel("Инициализация модели машинного обучения")
 
         operation("Создание модели", MdlCommand.CREATE) {
             stubs("Обработка стабов") {
@@ -44,6 +48,10 @@ class MdlMlProcessor(
                 validateDescriptionHasContent("Проверка символов")
 
                 finishMlValidation("Завершение проверок")
+            }
+            training {
+                title = "Применение модели машинного обучения"
+                trainModel("Тренировка модели машинного обучения")
             }
             chain {
                 title = "Логика сохранения"
@@ -99,6 +107,11 @@ class MdlMlProcessor(
                 //validateDescriptionNotEmpty("Проверка на наличие содержания в описании")
                 //validateDescriptionHasContent("Проверка на наличие содержания в описании")
                 finishMlValidation("Успешное завершение процедуры валидации")
+            }
+            training {
+                title = "Изменение готовой модели машинного обучения"
+                trainModel("Изменение готовой модели")
+                worker("Копируем поля в mlValidated") { mlValidated = mlTrainModelResultDone.deepCopy() }
             }
             chain {
                 title = "Логика сохранения"

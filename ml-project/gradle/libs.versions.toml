@@ -29,6 +29,16 @@ muschko = "9.4.0"
 #Testing
 testcontainers = "1.21.3"
 
+#kotlin-dataframe
+dataframe = "1.0.0-Beta2"
+
+#ml-xgboost
+xgboost = "3.0.2"
+#spark
+spark = "3.5.0"
+log4j = "3.0.0-beta2"
+
+
 # BASE
 jvm-compiler = "21"
 jvm-language = "21"
@@ -40,7 +50,7 @@ plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 # plugin-binaryCompatibilityValidator = "org.jetbrains.kotlinx:binary-compatibility-validator:0.13.2"
 # kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version = "0.6.1" }
 plugin-binaryCompatibilityValidator = { module = "org.jetbrains.kotlinx:binary-compatibility-validator", version.ref = "binaryCompabilityValidator" }
-#coroutines-jdk9 = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-jdk9", version.ref = "coroutines" }
+
 kotlinx-atomicfu = { module = "org.jetbrains.kotlinx:atomicfu", version = "0.23.2" }
 
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
@@ -104,6 +114,26 @@ db-cassandra-qbuilder = { module = "com.datastax.oss:java-driver-query-builder",
 db-cassandra-kapt = { module = "com.datastax.oss:java-driver-mapper-processor", version.ref = "cassandra" }
 db-cassandra-mapper = { module = "com.datastax.oss:java-driver-mapper-runtime", version.ref = "cassandra" }
 
+#kotlin-dataframe
+kotlin-dataframe = { module = "org.jetbrains.kotlinx:dataframe", version.ref = "dataframe"}
+kotlin-dataframe-jdbc = { module = "org.jetbrains.kotlinx:dataframe-jdbc", version.ref = "dataframe"}
+kotlin-dataframe-core = { module = "org.jetbrains.kotlinx:dataframe-core", version.ref = "dataframe"}
+#ml
+xgboost-jvm = {module = "ml.dmlc:xgboost-jvm_2.13", version.ref = "xgboost"}
+xgboost-core = {module = "ml.dmlc:xgboost4j_2.13", version.ref = "xgboost"}
+xgboost-spark = {module = "ml.dmlc:xgboost4j-spark_2.13", version.ref = "xgboost"}
+xgboost-example = {module = "ml.dmlc:xgboost4j-example_2.13", version.ref = "xgboost"}
+
+#spark
+spark-core = { module = "org.apache.spark:spark-core_2.13", version.ref = "spark"}
+spark-hive = { module = "org.apache.spark:spark-hive_2.13", version.ref = "spark"}
+spark-streaming = { module = "org.apache.spark:spark-streaming_2.13", version.ref = "spark"}
+spark-sql = { module = "org.apache.spark:spark-sql_2.13", version.ref = "spark"}
+spark-mlib = { module = "org.apache.spark:spark-mllib_2.13", version.ref = "spark"}
+log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j"}
+log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j"}
+log4j-loyout = { module = "org.apache.logging.log4j:log4j-layout-template-json", version.ref = "log4j"}
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core",version.ref ="jackson" }
 
 # Liquidbase
 liquibase-core = {module = "org.liquibase:liquibase-core", version.ref = "liquibase"}
@@ -120,6 +150,7 @@ mdl-logs-socket = { module = "api.kotlinproject.libs:ml-service-lib-logging-sock
 mdl-cor = { module = "api.kotlinproject.libs:ml-service-lib-cor", version.ref = "mdl" }
 mdl-state-common = { module = "api.kotlinproject.state:ml-service-states-common", version.ref = "mdl" }
 mdl-state-biz = { module = "api.kotlinproject.state:ml-service-biz", version.ref = "mdl" }
+#mdl-state-xgboost = { module = "api.kotlinproject.state:ml-service-mlxgboost", version.ref = "mdl" }
 
 
 [bundles]
@@ -136,6 +167,10 @@ crowdproj-generator = { id = "com.crowdproj.generator", version = "0.3.0" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 shadowJar = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }
 liquibase = { id = "org.liquibase.gradle", version = "2.2.2" }
+dataframe = { id = "org.jetbrains.kotlinx.dataframe", version.ref = "dataframe"}
+dataframeplugin = { id = "org.jetbrains.kotlinx.dataframe:dataframe-compiler-plugin-core", version.ref = "dataframe"}
+dataframepluginexp = { id = "org.jetbrains.kotlin:kotlin-dataframe-compiler-plugin-experimental", version.ref = "dataframe"}
+dataframeplugingradle = { id = "org.jetbrains.kotlinx.dataframe:dataframe-gradle-plugin", version.ref = "dataframe"}
 
 
 # Ktor

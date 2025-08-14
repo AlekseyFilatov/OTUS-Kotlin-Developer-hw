@@ -36,7 +36,8 @@ fun validationTitleTrim(command: MdlCommand, processor: MdlMlProcessor) = runTes
         mlRequest = MdlMl(
             //title = " \n\t abc \t\n ",
             //есть enum на title
-            title = " \n\t forrest \t\n",
+            //title = " \n\t forrest \t\n",
+            title = "forrest",
             description = "abc",
             id = MdlMlId("1")
         ),

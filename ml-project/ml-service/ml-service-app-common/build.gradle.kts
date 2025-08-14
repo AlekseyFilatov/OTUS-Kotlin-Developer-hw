@@ -17,6 +17,7 @@ kotlin {
                 implementation(project(":ml-service-biz"))
                 implementation(project(":ml-service-api-v1-kmp"))
                 implementation(projects.mlServiceApiV1Kmp)
+
                 //implementation(project(":ml-service-api-v1-mappers"))
             }
         }

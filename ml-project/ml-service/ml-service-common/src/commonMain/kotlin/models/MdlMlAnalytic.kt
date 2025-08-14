@@ -26,7 +26,9 @@ data class MdlMlAnalytic constructor(
     /* batch_size */
     var batchSize: kotlin.Long? = 0,
 
-    var id :MdlMlId = MdlMlId.NONE
+    var id :MdlMlId = MdlMlId.NONE,
+
+    var title :MdlMlTitle = MdlMlTitle.NONE
 ) {
     fun isEmpty() = this == NONE
 

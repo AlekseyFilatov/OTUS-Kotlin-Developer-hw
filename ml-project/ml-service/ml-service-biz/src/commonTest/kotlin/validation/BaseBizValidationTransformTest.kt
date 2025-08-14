@@ -1,5 +1,6 @@
 package api.kotlinproject.biz.validation
 
+import api.kotlinproject.backend.repository.inmemory.MlTrainModelTransformStub
 import api.kotlinproject.biz.MdlMlTransformProcessor
 import api.kotlinproject.common.MdlTransformCorrSettings
 import api.kotlinproject.common.models.MdlCommand
@@ -16,7 +17,13 @@ abstract class BaseBizValidationTransformTest {
             MdlMlTransformStub.get(),
         ),
     )
+    private val model = MlTrainModelTransformStub()
 
-    private val settingsTransform by lazy { MdlTransformCorrSettings(repoTestTransform= repoTransform) }
+    private val settingsTransform by lazy { MdlTransformCorrSettings(repoTestTransform= repoTransform,
+        modelStubTransform = model,
+        modelForestTransform = model,
+        modelRapidsTransform = model,
+        modelXGBoostTransform = model
+        ) }
     protected val processorTransform by lazy { MdlMlTransformProcessor(settingsTransform) }
 }

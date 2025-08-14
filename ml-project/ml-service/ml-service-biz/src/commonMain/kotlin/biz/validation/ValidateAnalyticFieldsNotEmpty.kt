@@ -9,9 +9,9 @@ import api.kotlinproject.cor.worker
 fun ICorChainDsl<MdlContext>.validateAnalyticFieldsNotEmpty(title: String) = worker {
     this.title = title
     on {
-        mlTrainResultValidating.id.asString().isEmpty() ||
-                mlTrainResultValidating.dateTime.isEmpty() ||
-                mlTrainResultValidating.labelDatetime.isEmpty()
+        mlAnalyticValidating.id.asString().isEmpty() ||
+                mlAnalyticValidating.ticker.asString().isEmpty() ||
+                mlAnalyticValidating.taskNumber.asString().isEmpty()
         /*mlAnalyticValidating.ticker.asString().isEmpty() ||
                 mlAnalyticValidating.taskNumber.asString().isEmpty() ||
                 mlAnalyticValidating.dateStart?.isEmpty() == true ||

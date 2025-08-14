@@ -10,8 +10,7 @@ fun ICorChainDsl<MdlContext>.repoPrepareCreate(title: String) = worker {
     description = "Подготовка объекта к сохранению в базе данных"
     on { state == MdlState.RUNNING }
     handle {
-        mlRepoPrepare = mlValidated.deepCopy()
-        // TODO будет реализовано в занятии по управлению пользвателями
-        //mlRepoPrepare.ownerId = MdlUserId.NONE
+        mlRepoPrepare = mlTrainModelResultDone.deepCopy()
+        //mlRepoPrepare = mlValidated.deepCopy()
     }
 }

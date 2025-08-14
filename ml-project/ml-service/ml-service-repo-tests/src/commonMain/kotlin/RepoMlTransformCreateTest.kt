@@ -1,6 +1,7 @@
 package api.kotlinproject.backend.repo.tests
 
 import api.kotlinproject.common.models.MdlMlId
+import api.kotlinproject.common.models.MdlMlTitle
 import api.kotlinproject.common.models.MdlMlTransform
 import api.kotlinproject.common.repo.DbMlTransformRequest
 import api.kotlinproject.common.repo.DbMlTransformResponseOk
@@ -22,7 +23,8 @@ abstract class RepoMlTransformCreateTest {
         dateStart = "1900-01-01",
         dateEnd = "2025-01-01",
         dateOffset = 1.toLong(),
-        batchSize = 1
+        batchSize = 1,
+        title = MdlMlTitle("forrest")
     )
 
     @Test
