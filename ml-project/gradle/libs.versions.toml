@@ -37,7 +37,8 @@ xgboost = "3.0.2"
 #spark
 spark = "3.5.0"
 log4j = "3.0.0-beta2"
-
+#scala
+scala = "2.13.16"
 
 # BASE
 jvm-compiler = "21"
@@ -130,10 +131,14 @@ spark-hive = { module = "org.apache.spark:spark-hive_2.13", version.ref = "spark
 spark-streaming = { module = "org.apache.spark:spark-streaming_2.13", version.ref = "spark"}
 spark-sql = { module = "org.apache.spark:spark-sql_2.13", version.ref = "spark"}
 spark-mlib = { module = "org.apache.spark:spark-mllib_2.13", version.ref = "spark"}
+
+scala = { module = "org.scala-lang:scala-library", version.ref = "scala"}
+
 log4j-api = { module = "org.apache.logging.log4j:log4j-api", version.ref = "log4j"}
 log4j-core = { module = "org.apache.logging.log4j:log4j-core", version.ref = "log4j"}
 log4j-loyout = { module = "org.apache.logging.log4j:log4j-layout-template-json", version.ref = "log4j"}
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core",version.ref ="jackson" }
+
 
 # Liquidbase
 liquibase-core = {module = "org.liquibase:liquibase-core", version.ref = "liquibase"}

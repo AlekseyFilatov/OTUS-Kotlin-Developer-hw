@@ -1,8 +1,6 @@
 package api.kotlinproject.mlmodel.mlxgboost
 
 import api.kotlinproject.common.trainmodel.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
 import ml.dmlc.xgboost4j.java.DMatrix
 import ml.dmlc.xgboost4j.java.XGBoost
 import org.jetbrains.kotlinx.dataframe.api.dataFrameOf
@@ -14,7 +12,7 @@ import java.nio.charset.Charset
 class XGBoostDataFrame (): MlTrainModelBase(), ITrainModelMl {
 
     override suspend fun usingmodelMl(rq: TrainModelMlRequest): ITrainModelMlResponse = tryTrainModelMlMethod {
-        runBlocking(Dispatchers.IO) {
+
 
             /*val df = DataFrame.readJson(
                 File(
@@ -54,8 +52,8 @@ class XGBoostDataFrame (): MlTrainModelBase(), ITrainModelMl {
             val outputStream = ByteArrayOutputStream()
             booster.saveModel(outputStream)
 
-            return@runBlocking TrainModelMlResponseOk(rq.ml.copy(description = outputStream.readText()))
-        }
+        return@tryTrainModelMlMethod TrainModelMlResponseOk(rq.ml.copy(description = outputStream.readText()))
+
     }
 
     override fun close() {

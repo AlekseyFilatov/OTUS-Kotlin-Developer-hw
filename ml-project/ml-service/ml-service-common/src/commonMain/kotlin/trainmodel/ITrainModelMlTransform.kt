@@ -6,7 +6,7 @@ suspend fun usingmodelMl(rq: TrainModelMlTransformRequest): ITrainModelMlTransfo
 companion object {
     val NONE = object : ITrainModelMlTransform {
         override suspend fun usingmodelMl(rq: TrainModelMlTransformRequest): ITrainModelMlTransformResponse {
-            throw NotImplementedError("Must not be used")
+            throw NotImplementedError("usingmodelMl : TrainModelTransform must not be used")
             }
         }
     }

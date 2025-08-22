@@ -65,15 +65,20 @@ dependencies {
     implementation(libs.kotlin.dataframe.jdbc)
     implementation(libs.kotlin.dataframe.core)
     //implementation(libs.xgboost.example)
-    testImplementation(kotlin("test-junit"))
+    //testImplementation(kotlin("test-junit"))
     implementation(libs.coroutines.core)
     implementation(projects.mlServiceCommon)
     //implementation(project(":ml-service-common"))
+
+    /*test*/
+    testImplementation(kotlin("test-junit5"))
+    implementation(libs.coroutines.test)
+    implementation(projects.mlServiceMltest)
 }
 
 tasks {
     test {
-        //useJUnitPlatform()
+        useJUnitPlatform()
     }
 }
 

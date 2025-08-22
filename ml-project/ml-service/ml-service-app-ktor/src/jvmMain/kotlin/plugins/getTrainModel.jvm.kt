@@ -51,7 +51,7 @@ actual fun Application.getTrainModelTrainResult(type: MlTrainModelType): ITrainM
         MlTrainModelType.XGBoost -> initXGBoostTrainResult()
         MlTrainModelType.FOREST -> initXGBoostTrainResult()
         MlTrainModelType.RAPIDS -> initXGBoostTrainResult()
-        MlTrainModelType.STUB -> TODO()
+        MlTrainModelType.STUB -> initStubTrainResult()
     }
 }
 
