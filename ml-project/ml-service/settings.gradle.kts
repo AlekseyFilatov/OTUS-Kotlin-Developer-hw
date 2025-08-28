@@ -51,5 +51,6 @@ include(":ml-service-mlspark")
 include(":ml-service-mlxgboost")
 include(":ml-service-mlstubs")
 include(":ml-service-mltest")
+include(":ml-service-mlsmile")
 
 //include(":ml-service-tmp")

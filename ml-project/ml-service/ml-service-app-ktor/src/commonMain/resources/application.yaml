@@ -11,10 +11,10 @@ ktor:
   application:
     modules:
       - "api.kotlinproject.app.ktor.ApplicationKt.module"
-#  urls:
-#    - "http://127.0.0.1:8080/v2"
-#    - "http://0.0.0.0:8080/v2"
-#    - "http://192.168.0.182:8080/v2"
+  urls:
+     - "http://127.0.0.1:8080/v2"
+     - "http://0.0.0.0:8080/v2"
+     - "http://192.168.0.182:8080/v2"
   logger: kmp
 #  # Логирование типа socket требует установки в fluent-bit.conf
 #  # [INPUT]

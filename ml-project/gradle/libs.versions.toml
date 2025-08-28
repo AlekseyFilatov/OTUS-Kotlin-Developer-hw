@@ -37,8 +37,11 @@ xgboost = "3.0.2"
 #spark
 spark = "3.5.0"
 log4j = "3.0.0-beta2"
+kryo = "5.6.2"
 #scala
 scala = "2.13.16"
+#smile
+smile = "4.3.0"
 
 # BASE
 jvm-compiler = "21"
@@ -124,6 +127,7 @@ xgboost-jvm = {module = "ml.dmlc:xgboost-jvm_2.13", version.ref = "xgboost"}
 xgboost-core = {module = "ml.dmlc:xgboost4j_2.13", version.ref = "xgboost"}
 xgboost-spark = {module = "ml.dmlc:xgboost4j-spark_2.13", version.ref = "xgboost"}
 xgboost-example = {module = "ml.dmlc:xgboost4j-example_2.13", version.ref = "xgboost"}
+smile-core = {module = "com.github.haifengl:smile-kotlin", version.ref = "smile"}
 
 #spark
 spark-core = { module = "org.apache.spark:spark-core_2.13", version.ref = "spark"}
@@ -131,6 +135,7 @@ spark-hive = { module = "org.apache.spark:spark-hive_2.13", version.ref = "spark
 spark-streaming = { module = "org.apache.spark:spark-streaming_2.13", version.ref = "spark"}
 spark-sql = { module = "org.apache.spark:spark-sql_2.13", version.ref = "spark"}
 spark-mlib = { module = "org.apache.spark:spark-mllib_2.13", version.ref = "spark"}
+kryo-lib = { module = "com.esotericsoftware:kryo", version.ref = "kryo"}
 
 scala = { module = "org.scala-lang:scala-library", version.ref = "scala"}
 

@@ -6,7 +6,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.minutes
 
-fun runXGBoostSparkTest(testBody: suspend TestScope.() -> Unit) = runTest(timeout = 2.minutes) {
+fun runMlModelTest(testBody: suspend TestScope.() -> Unit) = runTest(timeout = 2.minutes) {
     withContext(Dispatchers.Default) {
         testBody()
     }

@@ -10,13 +10,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertIs
 import kotlin.test.assertNotEquals
 
-abstract class TrainModelMlCreateTest {
+abstract class TrainModelForestMlCreateTest {
     abstract val model: ITrainModelMl
     protected open val uuidNew = MdlMlId("10000000-0000-0000-0000-000000000001")
 
     private val createObj = MdlMl(
-        title = "xgboost",
-        description = "create model xgboost",
+        title = "forrest",
+        description = "create model forest",
         id = uuidNew
     )
 
@@ -27,7 +27,7 @@ abstract class TrainModelMlCreateTest {
         assertIs<TrainModelMlResponseOk>(result)
         assertEquals(uuidNew, result.data.id)
         assertEquals(expected.title, result.data.title)
-        assertEquals(true, result.data.description.contains("learn"))
+        assertEquals(true, result.data.description.contains("smile"))
         assertNotEquals(MdlMlId.Companion.NONE, result.data.id)
     }
 
@@ -36,6 +36,6 @@ abstract class TrainModelMlCreateTest {
     }
 }
 
-class MlTrainModelCreateTest : TrainModelMlCreateTest() {
-    override val model = XGBoostDataFrame()
+class MlTrainModelCreateTest : TrainModelForestMlCreateTest() {
+    override val model = ForestSmile()
 }

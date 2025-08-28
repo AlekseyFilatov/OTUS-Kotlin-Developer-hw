@@ -2,11 +2,20 @@ package api.kotlinproject.ml.mlspark
 
 import api.kotlinproject.common.trainmodel.*
 import api.kotlinproject.common.trainmodel.exceptions.TrainModelMlException
-import ml.dmlc.xgboost4j.scala.spark.XGBoostRegressionModel
-import ml.dmlc.xgboost4j.scala.spark.XGBoostRegressor
-import org.apache.spark.ml.feature.VectorAssembler
+import com.esotericsoftware.kryo.Kryo
+import ml.dmlc.xgboost4j.scala.spark.XGBoostClassifier
+import org.apache.spark.SparkConf
+import org.apache.spark.serializer.KryoRegistrator
 import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.types.DataTypes
+import org.apache.spark.sql.types.StructField
+import org.apache.spark.sql.types.StructType
+import org.json4s.CustomSerializer
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.ObjectOutputStream
+import java.io.Serializable
+import java.nio.charset.Charset
 
 
 class XGBoostSpark () : MlTrainModelBase(), ITrainModelMl {
@@ -28,15 +37,28 @@ class XGBoostSpark () : MlTrainModelBase(), ITrainModelMl {
        var spark: SparkSession = SparkSession
            .builder()
            .master("local[*]")
+           //.config("spark.kryo.registrationRequired","false")
+           //.config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+           //.config("spark.kryo.registrator", "api.kotlinproject.ml.mlspark.MyKryoRegistrator")
            .orCreate
 
        var result : String = ""
 
        override suspend fun usingmodelMl(rq: TrainModelMlRequest): ITrainModelMlResponse = tryTrainModelMlMethod {
            runCatching {
+               val conf = SparkConf()
+               //conf.set("spark.kryo.registrationRequired","false")
+                   .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+
+                   //.set("spark.kryo.registrator", "api.kotlinproject.ml.mlspark.MyKryoRegistrator")
+
               spark = SparkSession.builder()
                .appName("XGBoostTraining ${rq.ml.id}")
                .master("local[*]")
+               //.config(conf)
+               //.config("spark.kryo.registrationRequired","false")
+               //.config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+               //.config("spark.kryo.registrator", "api.kotlinproject.ml.mlspark.MyKryoRegistrator")
                .getOrCreate()
 
                val trainPath = File(
@@ -60,52 +82,77 @@ class XGBoostSpark () : MlTrainModelBase(), ITrainModelMl {
                    "rate_code", "dropoff_longitude", "dropoff_latitude", "hour", "day_of_week", "is_weekend", "h_distance"
                )
 
-               val assembler = VectorAssembler()
-                   .setInputCols(arrayOf("passenger_count", "trip_distance", "pickup_longitude", "pickup_latitude", "rate_code", "dropoff_longitude", "dropoff_latitude", "hour", "day_of_week", "is_weekend", "h_distance"))
-                   .setOutputCol("features")
-               val assembled_df = assembler.transform(train_df)
+               val schema = StructType(arrayOf(
+                       StructField("feature1", DataTypes.DoubleType, true, org.apache.spark.sql.types.Metadata.empty()),
+                       StructField("feature2", DataTypes.DoubleType, true, org.apache.spark.sql.types.Metadata.empty()),
+                       StructField("label", DataTypes.DoubleType, true, org.apache.spark.sql.types.Metadata.empty())
+                   )
+               )
 
-               val map :Map<String, Any> = HashMap<String, Any>()
+               val data = listOf(
+                   org.apache.spark.sql.RowFactory.create(1.0, 2.0, 0.0),
+                   org.apache.spark.sql.RowFactory.create(3.0, 4.0, 1.0),
+                   org.apache.spark.sql.RowFactory.create(5.0, 6.0, 0.0)
+               )
 
-               val regressor = XGBoostRegressor()
+               val df = spark.createDataFrame(data, schema)
+
+               val schema1 = StructType(arrayOf(
+                   StructField("sepal_length", DataTypes.DoubleType, true, org.apache.spark.sql.types.Metadata.empty()),
+                   StructField("sepal_width", DataTypes.DoubleType, true,  org.apache.spark.sql.types.Metadata.empty()),
+                   StructField("petal_length", DataTypes.DoubleType, true, org.apache.spark.sql.types.Metadata.empty()),
+                   StructField("petal_width", DataTypes.DoubleType, true, org.apache.spark.sql.types.Metadata.empty()),
+                   StructField("class", DataTypes.StringType, true, org.apache.spark.sql.types.Metadata.empty())
+               ))
+
+               val rawData = spark.read()
+                   .option("header", "false") // If no header in CSV
+                   .schema(schema1)
+                   .csv(File(
+                       this::class.java.classLoader.getResource("iris.csv")?.toURI()
+                           ?: throw RuntimeException("Can't read file")
+                   ).absolutePath)
+
+               val indexer = org.apache.spark.ml.feature.StringIndexer()
+                   .setInputCol("class")
+                   .setOutputCol("label")
+                   .fit(rawData)
+
+               //val indexedData = indexer.transform(rawData)
+
+               val featureCols = arrayOf("sepal_length", "sepal_width", "petal_length", "petal_width")
 
 
-               val model: XGBoostRegressionModel = regressor.fit(assembled_df)
 
-               result = model.transform(test_df)?.toJSON().toString()
-               /*val map: Map<String, Any> = HashMap()
-                map.plus( "learning_rate" to 0.05)
-                map.plus("max_depth" to 8)
-                map.plus("subsample" to 0.8)
-                map.plus("gamma" to 1)
-                map.plus("num_round" to 10)
-                   //.updated("tree_method", "gpu_hist")
-                map.plus("num_workers" to 2)
-                map.plus("features_col" to featureColumns)
-                map.plus("label_col" to labelName)*/
-               /*val map: HashMap<String?, Any?>? = HashMap<String, Any>()
-                   .updated("learning_rate", 0.05)
-                   .updated("max_depth", 8)
-                   .updated("subsample", 0.8)
-                   .updated("gamma", 1)
-                   .updated("num_round", 10)
-                  // .updated("tree_method", 2)
 
-               val regressor = XGBoostRegressor(map)
-               regressor.setLabelCol(labelName)
-               regressor.setFeaturesCol(featureColumns)
+              /* val assembler = VectorAssembler()
+                   .setInputCols(featureCols)
+                   .setOutputCol("class")
 
-               val model: PredictionModel<Vector, XGBoostRegressionModel> = regressor.fit(train_df)
-               val predict_df = model.transform(test_df)
+               val xgbInput = assembler.transform(rawData)*/
+               //val assembledData = assembler.transform(df)
+               val xgbParam :Map<String, Any> = mapOf(
+                   "num_round" to 100,
+                   "objective" to "binary:logistic",
+                   "num_workers" to 1 // Adjust based on your cluster setup
+               )
 
-               result = predict_df
-                   .withColumn("error", col("prediction")
-                       .minus(col(labelName)))
-                   .toJSON().toString()*/
+               val xgbClassifier = XGBoostClassifier()
+                   .setFeaturesCol("class")
+                   .setLabelCol("label")
+                   .setNumWorkers(2)
+                   //.setObjective("binary:logistic")
 
-               // result.select(labelName, "prediction", "error").show()
-               // result.describe(labelName, "prediction", "error").show()
-            }.fold(
+               val model = xgbClassifier.train(rawData)
+               val outputStream = ByteArrayOutputStream()
+               ObjectOutputStream(outputStream).use { oos ->
+                   oos.writeObject(model)
+               }
+
+               return@tryTrainModelMlMethod TrainModelMlResponseOk(rq.ml.copy(description = outputStream.readText()))
+
+
+           }.fold(
                 onFailure = { exception ->
                         spark.close()
                         throw TrainModelMlException(
@@ -150,5 +197,15 @@ class XGBoostSpark () : MlTrainModelBase(), ITrainModelMl {
        override fun close() {
            spark.close()
        }
+
+    inline fun ByteArrayOutputStream.readText(charset: Charset = Charsets.UTF_8): String {
+        return String(this.toByteArray(), charset)
+    }
    }
 
+class MyKryoRegistrator : KryoRegistrator, Serializable {
+    override fun registerClasses(kryo: Kryo) {
+        // Product POJO associated to a product Row from the DataFrame
+        kryo.register(CustomSerializer::class.java)
+    }
+}

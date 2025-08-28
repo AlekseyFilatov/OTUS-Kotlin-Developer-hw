@@ -29,7 +29,8 @@ class MlRepoInMemory(
     }
 
     override suspend fun createMl(rq: DbMlRequest): IDbMlResponse = tryMlMethod {
-        val key = randomUuid()
+        //val key = randomUuid()
+        val key = rq.ml.id.asString()
         val ml = rq.ml.copy(id = MdlMlId(key))
         val entity = MlEntity(ml)
         mutex.withLock {
