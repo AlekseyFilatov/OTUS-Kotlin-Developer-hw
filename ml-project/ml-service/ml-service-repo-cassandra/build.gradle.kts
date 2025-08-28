@@ -10,7 +10,7 @@ dependencies {
     implementation(projects.mlServiceRepoCommon)
 
     implementation(libs.coroutines.core)
-    //implementation(libs.coroutines.jdk9)
+
     implementation(libs.uuid)
     implementation(libs.bundles.cassandra)
     kapt(libs.db.cassandra.kapt)

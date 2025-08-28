@@ -13,6 +13,7 @@ kotlin {
                 implementation(libs.cor)
                 implementation(project(":ml-service-common"))
                 implementation(project(":ml-service-stubs"))
+
             }
         }
         commonTest {
@@ -22,6 +23,7 @@ kotlin {
 
                 api(libs.coroutines.test)
 
+                implementation(project(":ml-service-mlstubs"))
                 implementation(projects.mlServiceRepoTests)
                 implementation(projects.mlServiceRepoInmemory)
             }
@@ -29,7 +31,8 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-            }
+                implementation(projects.mlServiceMlxgboost)
+                }
         }
         jvmTest {
             dependencies {

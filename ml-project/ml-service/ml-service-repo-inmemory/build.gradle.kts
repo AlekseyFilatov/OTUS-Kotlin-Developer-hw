@@ -1,5 +1,6 @@
 plugins {
     id("build-kmp")
+    //id("build-jvm")
 }
 
 kotlin {

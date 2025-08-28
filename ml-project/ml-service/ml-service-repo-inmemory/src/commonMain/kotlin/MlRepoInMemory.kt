@@ -2,7 +2,6 @@ package api.kotlinproject.repo.inmemory
 
 import api.kotlinproject.common.models.MdlMl
 import api.kotlinproject.common.models.MdlMlId
-import api.kotlinproject.common.models.MdlUserId
 import api.kotlinproject.common.repo.*
 import api.kotlinproject.repo.common.IRepoMlInitializable
 import com.benasher44.uuid.uuid4
@@ -30,7 +29,8 @@ class MlRepoInMemory(
     }
 
     override suspend fun createMl(rq: DbMlRequest): IDbMlResponse = tryMlMethod {
-        val key = randomUuid()
+        //val key = randomUuid()
+        val key = rq.ml.id.asString()
         val ml = rq.ml.copy(id = MdlMlId(key))
         val entity = MlEntity(ml)
         mutex.withLock {
@@ -91,11 +91,11 @@ class MlRepoInMemory(
      */
     override suspend fun searchMl(rq: DbMlFilterRequest): IDbMlsResponse = tryMlsMethod {
         val result: List<MdlMl> = cache.asMap().asSequence()
-            .filter { entry ->
+           /* .filter { entry ->
                 rq.ownerId.takeIf { it != MdlUserId.NONE }?.let {
                     it.asString() == entry.value.ownerId
                 } ?: true
-            }
+            }*/
             .filter { entry ->
                 rq.titleFilter.takeIf { it.isNotBlank() }?.let {
                     entry.value.title?.contains(it) ?: false

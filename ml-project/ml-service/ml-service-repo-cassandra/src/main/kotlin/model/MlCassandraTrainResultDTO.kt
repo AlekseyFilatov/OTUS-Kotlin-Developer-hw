@@ -23,7 +23,7 @@ data class MlCassandraTrainResultDTO(
     var error: String? = null,
     @field:CqlName(COLUMN_ID)
     @field:PartitionKey // можно задать порядок
-    var id: String? = null
+    var id: String? = null,
 ) {
     constructor(model: MdlMlTrainResult) : this(
         dateTime = model.dateTime,
@@ -33,6 +33,7 @@ data class MlCassandraTrainResultDTO(
         prediction = model.prediction.toString(),
         error = model.error.toString(),
         id = model.id.asString().takeIf { it.isNotBlank() },
+
     )
 
     fun  toMlTrainResultModel() = MdlMlTrainResult(
@@ -55,6 +56,5 @@ data class MlCassandraTrainResultDTO(
         const val COLUMN_PREDICTION = "prediction"
         const val COLUMN_ERROR = "error"
         const val COLUMN_ID = "id"
-
     }
 }

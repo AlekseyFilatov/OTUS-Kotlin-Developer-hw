@@ -557,7 +557,9 @@ components:
           description: date_offset 
         batch_size:
           type: integer
-          description: batch_size 
+          description: batch_size
+        title:
+          $ref: '#/components/schemas/MlTitle'
 
     TransformMlResponseSingle:
       allOf:
@@ -699,6 +701,8 @@ components:
           description: batch_size
         id:
           $ref: '#/components/schemas/MlId'
+        title:
+          $ref: '#/components/schemas/MlTitle'
           
     ModelParameters:
       type: object

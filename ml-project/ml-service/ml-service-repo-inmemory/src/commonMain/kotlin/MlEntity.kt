@@ -7,7 +7,7 @@ data class MlEntity(
     val id: String? = null,
     val title: String? = null,
     val description: String? = null,
-    val ownerId: String? = null,
+    //val ownerId: String? = null,
 ) {
     constructor(model: MdlMl): this(
         id = model.id.asString().takeIf { it.isNotBlank() },

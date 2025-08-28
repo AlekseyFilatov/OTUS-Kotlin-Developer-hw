@@ -1,5 +1,6 @@
 package api.kotlinproject.biz.validation
 
+import api.kotlinproject.backend.repository.inmemory.MlTrainModelTrainResultStub
 import api.kotlinproject.biz.MdlMlAnalyticProcessor
 import api.kotlinproject.common.MdlTrainResultCorrSettings
 import api.kotlinproject.common.models.MdlCommand
@@ -16,7 +17,10 @@ abstract class BaseBizValidationAnalyticTest {
             MdlMlTrainResultStub.get(),
         ),
     )
+    private val model = MlTrainModelTrainResultStub()
 
-    private val settingsAnalytic by lazy { MdlTrainResultCorrSettings(repoTestTrainResult = repoTrainResult) }
+    private val settingsAnalytic by lazy { MdlTrainResultCorrSettings(repoTestTrainResult = repoTrainResult,
+        modelStubTrainResult = model, modelXGBoostTrainResult = model,
+        modelRapidsTrainResult = model, modelForestTrainResult = model) }
     protected val processorAnalytic by lazy { MdlMlAnalyticProcessor(settingsAnalytic) }
 }

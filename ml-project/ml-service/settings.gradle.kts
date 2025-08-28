@@ -45,3 +45,12 @@ include(":ml-service-repo-inmemory")
 include(":ml-service-repo-stubs")
 include(":ml-service-repo-tests")
 include(":ml-service-repo-cassandra")
+
+// ML
+include(":ml-service-mlspark")
+include(":ml-service-mlxgboost")
+include(":ml-service-mlstubs")
+include(":ml-service-mltest")
+include(":ml-service-mlsmile")
+
+//include(":ml-service-tmp")

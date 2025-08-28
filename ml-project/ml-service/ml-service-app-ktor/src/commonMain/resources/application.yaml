@@ -11,19 +11,19 @@ ktor:
   application:
     modules:
       - "api.kotlinproject.app.ktor.ApplicationKt.module"
-#  urls:
-#    - "http://127.0.0.1:8080/v1"
-#    - "http://0.0.0.0:8080/v1"
-#    - "http://192.168.0.182:8080/v1"
-#  logger: kmp
+  urls:
+     - "http://127.0.0.1:8080/v2"
+     - "http://0.0.0.0:8080/v2"
+     - "http://192.168.0.182:8080/v2"
+  logger: kmp
 #  # Логирование типа socket требует установки в fluent-bit.conf
 #  # [INPUT]
 #  # Name    TCP # Вот здесь нужно поменять!
 #  # Listen  0.0.0.0
 #  # Port    24224
-  logger: socket
-  socketLogger:
-    port: 24224
+#  logger: socket
+#  socketLogger:
+#    port: 24224
 
 mlservice:
   repository:
@@ -36,3 +36,9 @@ mlservice:
       port: "$MDLMLS_PORT:5432"
       user: "$MDLMLS_USER:postgres"
       password: "$MDLMLS_PASS:mlservice-pass"
+    cassandra:
+      hosts: localhost
+      keyspace: test_keyspace
+      pass: cassandra
+      port: 9042
+      user: cassandra

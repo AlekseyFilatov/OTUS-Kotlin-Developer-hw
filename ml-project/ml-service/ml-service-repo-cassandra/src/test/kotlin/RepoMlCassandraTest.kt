@@ -15,7 +15,6 @@ import org.testcontainers.containers.ComposeContainer
 import org.testcontainers.containers.wait.strategy.Wait
 import java.io.File
 import java.time.Duration
-import kotlin.test.AfterTest
 
 private fun MlRepoInitialized.clear() {
     (this.repo as RepoMlCassandra).clear()
@@ -39,8 +38,8 @@ class CassandraTest {
             initObjects = initObjects,
             repo = repository()
         )
-        @AfterTest
-        fun tearDown() = repo.clear()
+        /*@AfterTest
+        fun tearDown() = repo.clear()*/
     }
 
     class RepoMlCassandraUpdateTest : RepoMlUpdateTest() {
@@ -48,8 +47,8 @@ class CassandraTest {
             initObjects = initObjects,
             repo = repository()
         )
-        @AfterTest
-        fun tearDown() = repo.clear()
+        /*@AfterTest
+        fun tearDown() = repo.clear()*/
     }
 
     class RepoMlCassandraDeleteTest : RepoMlDeleteTest() {

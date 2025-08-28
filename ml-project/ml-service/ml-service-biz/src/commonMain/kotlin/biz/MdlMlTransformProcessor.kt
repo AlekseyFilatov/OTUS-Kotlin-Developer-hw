@@ -6,6 +6,8 @@ import api.kotlinproject.biz.general.stubs
 import api.kotlinproject.biz.repo.*
 import api.kotlinproject.biz.stubs.stubDbError
 import api.kotlinproject.biz.stubs.stubNoCase
+import api.kotlinproject.biz.trainmodel.trainModelTransform
+import api.kotlinproject.biz.trainmodel.training
 import api.kotlinproject.biz.validation.finishMlValidationTransform
 import api.kotlinproject.biz.validation.validation
 import api.kotlinproject.common.MdlContext
@@ -16,7 +18,7 @@ import api.kotlinproject.cor.rootChain
 import api.kotlinproject.cor.worker
 import biz.stubs.stubTransformSuccess
 import biz.stubs.stubValidationBadTransform
-import biz.trainmodel.transformModel
+import biz.trainmodel.initTrainModelTransform
 import biz.validation.validateTransformHasContent
 
 class MdlMlTransformProcessor(
@@ -29,6 +31,8 @@ class MdlMlTransformProcessor(
     private val businessChain = rootChain<MdlContext> {
         initStatus("Инициализация статуса")
         initRepoTransform("Инициализация репозитория")
+        initTrainModelTransform("Инициализация модели машинного обучения")
+
 
         operation("Запрос transform", MdlCommand.TRANSFORMML) {
             stubs("Обработка стабов") {
@@ -44,9 +48,13 @@ class MdlMlTransformProcessor(
                 validateTransformHasContent("Валидация наличия текста в полях запроса")
                 finishMlValidationTransform("Успешное завершение процедуры валидации")
             }
+            training {
+                title = "Тренировка модели машинного обучения"
+                trainModelTransform("Тренировка модели перед сохранением в БД")
+                worker("Копируем поля в mlValidated") { mlValidatedTransform = mlTrainModelTransformDone.deepCopy() }
+            }
             chain {
                 title = "Логика сохранения"
-                transformModel("Тренировка модели перед сохранением в БД")
                 repoPrepareDeleteTransform("Подготовка удаления модели из БД")
                 repoDeleteTransform("Удаление модели из БД")
                 repoPrepareCreateTransform("Подготовка объекта для сохранения")

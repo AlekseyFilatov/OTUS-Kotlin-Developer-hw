@@ -16,6 +16,7 @@ fun ICorChainDsl<MdlContext>.repoRead(title: String) = worker {
     on { state == MdlState.RUNNING }
     handle {
         val request = DbMlIdRequest(mlValidated)
+        //val request = DbMlIdRequest(mlTrainModelResultDone)
         when(val result = mlRepo.readMl(request)) {
             is DbMlResponseOk -> mlRepoRead = result.data
             is DbMlResponseErr -> fail(result.errors)

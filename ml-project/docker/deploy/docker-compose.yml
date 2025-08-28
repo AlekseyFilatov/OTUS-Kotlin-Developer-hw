@@ -100,7 +100,8 @@ services:
       - ./volumes/envoy/envoy.yaml:/etc/envoy/envoy.yaml  # Mount your Envoy configuration file
     #      - ./envoy/certs:/etc/envoy/certs  # Mount your TLS certificates
     ports:
-      - "8080:8080"
+      - "15001:15001"
+      - "8090:8090"
     depends_on:
       keycloak:
         condition: service_healthy

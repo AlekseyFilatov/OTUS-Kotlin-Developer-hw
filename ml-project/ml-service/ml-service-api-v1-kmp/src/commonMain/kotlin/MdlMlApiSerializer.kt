@@ -10,7 +10,7 @@ import kotlinx.serialization.json.Json
 @OptIn(ExperimentalSerializationApi::class)
 @Suppress("JSON_FORMAT_REDUNDANT_DEFAULT")
 val apiV2Mapper = Json {
-//    ignoreUnknownKeys = true
+    ignoreUnknownKeys = true
     allowTrailingComma = true
 }
 

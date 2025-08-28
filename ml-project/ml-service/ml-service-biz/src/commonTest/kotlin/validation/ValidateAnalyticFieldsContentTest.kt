@@ -14,7 +14,8 @@ class ValidateAnalyticFieldsContentTest {
         val ctx = MdlContext(state = MdlState.RUNNING, mlAnalyticValidating = MdlMlAnalytic(ticker = MdlMlTicker("NVDA"), taskNumber = MdlMlTaskNumber("123"), dateStart = "1900-01-01", dateEnd = "2025-01-01", evalPivotPoint = 0.toLong(),
             modelParameters = MdlMlModelParameters(),
             batchSize = 1.toLong(),
-            dateOffset = 1.toLong()),
+            dateOffset = 1.toLong(),
+            id = MdlMlId("1")),
             mlTrainResultValidating = MdlMlTrainResult("1900-01-01", 0.0, "2025-01-01", 0.0, 0.0, 0.0, MdlMlId("1")))
         chain.exec(ctx)
         assertEquals(MdlState.RUNNING, ctx.state, ctx.errors.joinToString(","))

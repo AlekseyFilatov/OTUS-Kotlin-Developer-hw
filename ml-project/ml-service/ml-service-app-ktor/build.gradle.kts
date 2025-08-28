@@ -1,6 +1,7 @@
 //import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
 //import com.bmuschko.gradle.docker.tasks.image.DockerPushImage
 //import com.bmuschko.gradle.docker.tasks.image.Dockerfile
+
 import io.ktor.plugin.features.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 
@@ -71,6 +72,7 @@ kotlin {
 
                 // Stubs
                 implementation(project(":ml-service-stubs"))
+                implementation(project(":ml-service-mlstubs"))
 
                 implementation(libs.kotlinx.serialization.core)
                 implementation(libs.kotlinx.serialization.json)
@@ -82,11 +84,15 @@ kotlin {
                 implementation(projects.mlServiceRepoInmemory)
                 implementation(projects.mlServiceRepoCommon)
 
+                // ML
+                //implementation(projects.mlServiceMlxgboost)
+
                 // logging
                 implementation(project(":ml-service-api-log1"))
                 implementation("api.kotlinproject.libs:ml-service-lib-logging-common")
                 implementation("api.kotlinproject.libs:ml-service-lib-logging-kermit")
                 implementation("api.kotlinproject.libs:ml-service-lib-logging-socket")
+
             }
         }
 
@@ -124,7 +130,7 @@ kotlin {
 
                 implementation(libs.testcontainers.cassandra)
                 implementation("api.kotlinproject.libs:ml-service-lib-logging-logback")
-
+                implementation(projects.mlServiceMlxgboost)
             }
         }
 
@@ -138,7 +144,7 @@ kotlin {
 
         val linuxX64Main by getting {
             dependencies {
-                //implementation(projects.mlServiceRepoPgntv)
+
             }
         }
     }

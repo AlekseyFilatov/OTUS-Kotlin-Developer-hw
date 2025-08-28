@@ -25,7 +25,7 @@ fun ICorChainDsl<MdlContext>.finishMlValidationAnalytic(title: String) = worker 
     this.title = title
     on { state == MdlState.RUNNING }
     handle {
-        mlResponseValidatedTrainModel = mlTrainResultValidating
+        mlValidatedAnalytic = mlAnalyticValidating
     }
 }
 

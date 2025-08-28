@@ -57,7 +57,8 @@ fun MdlMlTransform.toTransportMl() = TransformMl(
     dateEnd = dateEnd,
     dateOffset = dateOffset,
     batchSize = batchSize,
-    id = id.asString()
+    id = id.asString(),
+    title = title.asString()
 )
 
 fun MdlContext.toTransportCreate() = MlCreateResponse(
